@@ -1,4 +1,4 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>しーちゃんの手相スキャン</title>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style><title>しーちゃんの手相スキャン</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#1d1640">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -147,7 +147,7 @@ footer .row button,footer .row .btn{flex:1 1 140px}
 @keyframes cardFlash{0%,100%{box-shadow:0 0 0 3px rgba(246,196,69,.35)}50%{box-shadow:0 0 0 6px var(--gold),0 0 24px var(--gold)}}
 .downHint{text-align:center;font-weight:800;color:var(--gold2);font-size:15px;animation:bob 1.2s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
-.tools{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.tools{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
 .tools button{padding:10px 0;font-size:18px}
 #scanStatus{min-height:150px;display:flex;flex-direction:column;gap:6px;font-weight:800}
 #scanStatus .st{display:flex;align-items:center;gap:8px;opacity:.35;transition:opacity .3s}
@@ -214,6 +214,7 @@ footer .row button,footer .row .btn{flex:1 1 140px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
+</head><body>
 <canvas id="stars" aria-hidden="true"></canvas>
 <main>
   <header class="top">
@@ -336,6 +337,7 @@ footer .row button,footer .row .btn{flex:1 1 140px}
       <button type="button" class="sec" id="tZoomIn" aria-label="大きく">＋</button>
       <button type="button" class="sec" id="tRotL" aria-label="左に回す">⟲</button>
       <button type="button" class="sec" id="tRotR" aria-label="右に回す">⟳</button>
+      <button type="button" class="sec" id="tRot90" aria-label="90°回す">↻90°</button>
       <button type="button" class="sec" id="tAuto" aria-label="自動" data-i18n="auto">自動</button>
     </div>
     <button type="button" class="big pink" id="goScan" data-i18n="goScan">✨ この位置でスキャン</button>
@@ -410,7 +412,7 @@ footer .row button,footer .row .btn{flex:1 1 140px}
 <script>
 (()=>{
 'use strict';
-const VERSION='1.2.0';
+const VERSION='1.2.4';
 const LANG=((navigator.languages&&navigator.languages[0])||navigator.language||'ja').toLowerCase().startsWith('ja')?'ja':'en';
 document.documentElement.lang=LANG;
 const SHOP_URL='https://www.instagram.com/mirateria.project/';
@@ -717,7 +719,9 @@ const SAN_META={w:329,h:302,px:.0213,py:.8478,cx:.5512,cy:.5321};
 const sans=[];
 (function buildSans(){const bar=$('sanBar');const n=10;
  const sc=0.30;const w=SAN_META.w*sc,h=SAN_META.h*sc;
- const dx=(SAN_META.cx-SAN_META.px)*w,dy=(SAN_META.cy-SAN_META.py)*h;
+ /* 吊るす所＝ストラップの紐が付く金具。紐は自分の重さでピンと真っ直ぐ（絵の中のたるんだ紐は消して、まっすぐな紐を描く） */
+ const HX=.600,HY=.671;const Lc=Math.hypot((SAN_META.px-HX)*w,(SAN_META.py-HY)*h)*.9;
+ const dx=(SAN_META.cx-HX)*w,dy=(SAN_META.cy-HY)*h;
  const base=90-Math.atan2(dy,dx)*180/Math.PI;
  const R=7.5; // string wraps around the round rod (rod radius 6)
  const NS='http://www.w3.org/2000/svg';
@@ -725,16 +729,29 @@ const sans=[];
   const sw=document.createElement('div');sw.className='sw';
   const L=(i%2)?40:14; // string length from rod center to the strap end
   // string: over the top of the rod, following its round shape, then both strands down to the strap
-  const sv=document.createElementNS(NS,'svg');sv.setAttribute('width','24');sv.setAttribute('height',String(L+24));
-  const o=12;const path=(stroke,wd)=>{const pa=document.createElementNS(NS,'path');
-   pa.setAttribute('d',`M ${o-R} ${o} A ${R} ${R} 0 0 1 ${o+R} ${o} L ${o+1.2} ${o+L} M ${o-R} ${o} L ${o-1.2} ${o+L}`);
+  const sv=document.createElementNS(NS,'svg');sv.setAttribute('width','24');sv.setAttribute('height',String(L+Lc+24));
+  /* 紐の輪は棒と直角（横から見た向き）にして、棒と、ストラップ先の輪の穴に通す */
+  const o=12,dx=1.1,TH=6;const path=(stroke,wd,d)=>{const pa=document.createElementNS(NS,'path');
+   pa.setAttribute('d',d);
    pa.setAttribute('fill','none');pa.setAttribute('stroke',stroke);pa.setAttribute('stroke-width',wd);pa.setAttribute('stroke-linecap','round');pa.setAttribute('stroke-linejoin','round');sv.appendChild(pa)};
-  path('#6b4a08',2.6);path('#f3c94a',1.4);
-  const im=document.createElement('img');im.src='img/san'+i+'.png';im.alt='';im.width=Math.round(w);im.height=Math.round(h);
-  im.style.width=w+'px';im.style.height=h+'px';im.style.left=(-SAN_META.px*w)+'px';im.style.top=(L-SAN_META.py*h)+'px';
-  im.style.transformOrigin=(SAN_META.px*w)+'px '+(SAN_META.py*h)+'px';im.style.transform='rotate('+base+'deg)';
+  const back=`M ${o+dx} ${o-R} L ${o+dx} ${o-6.5} M ${o+dx} ${o+6.5} L ${o+dx} ${o+L}`;/* 奥側の紐：棒のうしろは見えない */
+  const front=`M ${o+dx} ${o-R} A ${dx} ${dx} 0 0 0 ${o-dx} ${o-R} L ${o-dx} ${o+L+TH} A ${dx} ${dx} 0 0 0 ${o+dx} ${o+L+TH} L ${o+dx} ${o+L}`;/* 手前の紐：輪の穴を通って折り返す */
+  /* ストラップの紐：先の輪（穴）から金具まで、2本がよじれながらピンと張る */
+  const y0=o+L-1,y1=o+L+9,y2=o+L+Lc;let c1=`M ${o} ${y0} C ${o+3.6} ${y0} ${o+3.6} ${y1-1} ${o} ${y1} C ${o-3.6} ${y1-1} ${o-3.6} ${y0} ${o} ${y0}`,s1='',s2='';
+  for(let y=y1,k=0;y<=y2+.01;y+=1,k++){const a=Math.sin((y-y1)/2.2)*1.1*(1-(y-y1)/(y2-y1)*.5);s1+=(k?' L ':'M ')+(o+a).toFixed(2)+' '+y.toFixed(2);s2+=(k?' L ':'M ')+(o-a).toFixed(2)+' '+y.toFixed(2)}
+  path('#5a3d08',2.2,c1);path('#d9a63a',1.1,c1);path('#5a3d08',1.9,s1);path('#d9a63a',.9,s1);path('#5a3d08',1.9,s2);path('#e8bb4c',.9,s2);
+  path('#4a3205',2.6,back);path('#b88a1c',1.4,back);path('#6b4a08',2.6,front);path('#f3c94a',1.4,front);
+  const im=document.createElement('img');im.src='img/sanh'+i+'.png';im.alt='';im.width=Math.round(w);im.height=Math.round(h);
+  im.style.width=w+'px';im.style.height=h+'px';im.style.left=(-HX*w)+'px';im.style.top=(L+Lc-HY*h)+'px';
+  im.style.transformOrigin=(HX*w)+'px '+(HY*h)+'px';im.style.transform='rotate('+base+'deg)';
   const hit=document.createElement('div');hit.className='hit';
-  sw.append(im,sv,hit);d.appendChild(sw);bar.appendChild(d);
+  /* 金具の下の鎖・輪・鈴・Tの飾りは、金具からぶら下がって下向きに垂れる */
+  const dang=(src,PVX,PVY,CMX,CMY)=>{const e=document.createElement('img');e.src=src;e.alt='';e.width=im.width;e.height=im.height;
+   e.style.width=w+'px';e.style.height=h+'px';e.style.left=im.style.left;e.style.top=im.style.top;e.style.transformOrigin=im.style.transformOrigin;
+   const tc=Math.atan2((CMY-PVY)*h,(CMX-PVX)*w)*180/Math.PI;const dl=90-tc-base;const vx=(PVX-HX)*w,vy=(PVY-HY)*h;
+   e.style.transform=`rotate(${base}deg) translate(${vx}px,${vy}px) rotate(${dl}deg) translate(${-vx}px,${-vy}px)`;return e};
+  const cg=dang('img/sanc'+i+'.png',.6917,.7032,.8059,.8657);
+  sw.append(im,cg,sv,hit);d.appendChild(sw);bar.appendChild(d);
   const s={el:d,sw,th:(Math.random()-.5)*.3,om:0,ph:Math.random()*6};sans.push(s);
   d.addEventListener('click',()=>{s.om+=(Math.random()<.5?-1:1)*4;SFX.rin();openSan()});}
  function layout(){const W=bar.clientWidth;sans.forEach((s,i)=>{s.el.style.left=(18+(W-36)*(i+.5)/n)+'px'})}
@@ -850,10 +867,36 @@ function drawLearn(sel){if(sel)learnSel=sel;const c=$('learnCv'),g=c.getContext(
 /* ---------- photo + align ---------- */
 let photo=null; // canvas
 let X={tx:500,ty:650,s:1,r:0};
-function loadFile(f){if(!f)return;const url=URL.createObjectURL(f);const im=new Image();
- im.onload=()=>{const mxs=1600;const k=Math.min(1,mxs/Math.max(im.naturalWidth,im.naturalHeight));const c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*k);c.height=Math.round(im.naturalHeight*k);
-  c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(url);photo=c;autoFit();openAlign()};
- im.onerror=()=>{URL.revokeObjectURL(url);toast(t('loadErr'))};im.src=url}
+/* ---------- 写真の向き：iPhoneの向き情報（EXIF）を読み、手首が下・指が上になるように自動で直す ---------- */
+function exifInfo(buf){try{const v=new DataView(buf);if(v.getUint16(0)!==0xFFD8)return{o:1,w:0,h:0};let p=2,o=1,w=0,h=0;
+ while(p+4<v.byteLength){const m=v.getUint16(p);if((m&0xFF00)!==0xFF00)break;const L=v.getUint16(p+2);
+  if(m===0xFFE1&&v.getUint32(p+4)===0x45786966){const t=p+10;const le=v.getUint16(t)===0x4949;const ifd=t+v.getUint32(t+4,le);const n=v.getUint16(ifd,le);
+   for(let i=0;i<n;i++){const e=ifd+2+i*12;if(v.getUint16(e,le)===0x0112){o=v.getUint16(e+8,le);break}}}
+  else if(m>=0xFFC0&&m<=0xFFCF&&m!==0xFFC4&&m!==0xFFC8&&m!==0xFFCC){h=v.getUint16(p+5);w=v.getUint16(p+7);break}
+  p+=2+L}
+ return{o,w,h}}catch(e){return{o:1,w:0,h:0}}}
+function rotCanvas(src,q){/* q: 1=右に90°, 2=180°, 3=左に90° */
+ if(!q)return src;const c=document.createElement('canvas');const W=src.width,H=src.height;c.width=q%2?H:W;c.height=q%2?W:H;const g=c.getContext('2d');
+ g.translate(c.width/2,c.height/2);g.rotate(q*Math.PI/2);g.drawImage(src,-W/2,-H/2);return c}
+function uprightByArm(c){/* 腕（手首）が入ってくる辺を見つけて、そこを下にする */
+ const sw=120,sh=Math.max(1,Math.round(c.height*sw/c.width));const t=document.createElement('canvas');t.width=sw;t.height=sh;const g=t.getContext('2d');g.drawImage(c,0,0,sw,sh);
+ const d=g.getImageData(0,0,sw,sh).data;const sk=(x,y)=>{const i=(y*sw+x)*4;return isSkin(d[i],d[i+1],d[i+2])};
+ const bx=Math.max(2,Math.round(sw*.04)),by=Math.max(2,Math.round(sh*.04));let T=0,B=0,Lf=0,R=0,tot=0;
+ for(let y=0;y<sh;y++)for(let x=0;x<sw;x++){if(!sk(x,y))continue;tot++;if(y<by)T++;if(y>=sh-by)B++;if(x<bx)Lf++;if(x>=sw-bx)R++}
+ if(tot<sw*sh*.04)return 0;
+ const f={B:B/(sw*by),T:T/(sw*by),L:Lf/(sh*bx),R:R/(sh*bx)};const ks=Object.keys(f).sort((a,b)=>f[b]-f[a]);const top=ks[0],sec=f[ks[1]];
+ if(top==='B'||f[top]<.12||f[top]<sec*1.8)return 0;
+ return top==='L'?3:top==='R'?1:2}
+function loadFile(f){if(!f)return;
+ const go=info=>{const url=URL.createObjectURL(f);const im=new Image();
+ im.onload=()=>{const mxs=1600;const k=Math.min(1,mxs/Math.max(im.naturalWidth,im.naturalHeight));let c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*k);c.height=Math.round(im.naturalHeight*k);
+  c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(url);
+  /* ブラウザが向き情報を使っていない時だけ、自分で回す */
+  if(info.o>=5&&info.o<=8&&info.w&&info.w!==info.h&&info.w===im.naturalWidth&&info.h===im.naturalHeight)c=rotCanvas(c,(info.o===6||info.o===5)?1:3);
+  c=rotCanvas(c,uprightByArm(c));photo=c;autoFit();openAlign()};
+ im.onerror=()=>{URL.revokeObjectURL(url);toast(t('loadErr'))};im.src=url};
+ const rd=f.arrayBuffer?f.slice(0,262144).arrayBuffer():new Promise((ok,ng)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=ng;r.readAsArrayBuffer(f.slice(0,262144))});
+ rd.then(b=>go(exifInfo(b))).catch(()=>go({o:1,w:0,h:0}))}
 $('camIn').addEventListener('change',e=>{endPair();loadFile(e.target.files[0]);e.target.value=''});
 $('libIn').addEventListener('change',e=>{endPair();loadFile(e.target.files[0]);e.target.value=''});
 function isSkin(r,g,b){return r>80&&g>35&&b>20&&r>g&&r>b&&(r-Math.min(g,b))>14&&Math.abs(r-g)>8}
@@ -887,7 +930,7 @@ $('alignClose').onclick=closeScreens;
  c.addEventListener('wheel',e=>{e.preventDefault();zoomAt(e.deltaY<0?1.05:1/1.05)},{passive:false})})();
 function zoomAt(k,cx=500,cy=650){X.tx=cx+(X.tx-cx)*k;X.ty=cy+(X.ty-cy)*k;X.s*=k;drawAlign()}
 function rotAt(da,cx=500,cy=650){const vx=X.tx-cx,vy=X.ty-cy,c=Math.cos(da),s=Math.sin(da);X.tx=cx+vx*c-vy*s;X.ty=cy+vx*s+vy*c;X.r+=da;drawAlign()}
-$('tZoomIn').onclick=()=>zoomAt(1.08);$('tZoomOut').onclick=()=>zoomAt(1/1.08);$('tRotL').onclick=()=>rotAt(-.05);$('tRotR').onclick=()=>rotAt(.05);$('tAuto').onclick=()=>{autoFit();drawAlign()};
+$('tZoomIn').onclick=()=>zoomAt(1.08);$('tZoomOut').onclick=()=>zoomAt(1/1.08);$('tRotL').onclick=()=>rotAt(-.05);$('tRotR').onclick=()=>rotAt(.05);$('tRot90').onclick=()=>rotAt(Math.PI/2);$('tAuto').onclick=()=>{autoFit();drawAlign()};
 addEventListener('resize',()=>{if(!$('alignScr').hidden){alignU=sizeCv($('alignCv'));drawAlign()}});
 
 /* ---------- image analysis ---------- */
