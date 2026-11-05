@@ -1,0 +1,1244 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>しーちゃんの手相スキャン</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#1d1640">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="手相スキャン">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="icon" href="img/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&family=Dela+Gothic+One&display=swap">
+<style>
+/* Layout: one tall column on a night-sky ground — keychain bar, しーちゃん guide, banner, scan card, learning map, collection, footer. */
+:root{
+  --night:#1d1640; --night2:#2b2163; --night3:#3a2d80;
+  --gold:#f6c445; --gold2:#ffdf7e; --pink:#ff6fae; --cream:#fff6e0;
+  --ink:#1d1640; --muted:#c9c1ee; --banner:#4a4d57; --ok:#6dff9a;
+  --c-life:#ff5a7a; --c-head:#3ad0ff; --c-heart:#ff9f1c; --c-fate:#b18cff; --c-sun:#ffe14d; --c-marriage:#6dff9a;
+  --f-disp:"Dela Gothic One","M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;
+  --f-body:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--night);color:var(--cream)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.6;min-height:100%;
+  background:radial-gradient(1200px 600px at 50% -10%,#47379a 0%,var(--night) 60%) fixed,var(--night);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 32px;overflow-x:hidden}
+#stars{position:fixed;inset:0;pointer-events:none;z-index:0}
+main{position:relative;z-index:1;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{text-wrap:balance;margin:0}
+h1{font-family:var(--f-disp);font-weight:400;font-size:clamp(24px,7vw,32px);line-height:1.2;letter-spacing:.02em;
+  background:linear-gradient(180deg,var(--gold2),var(--gold) 55%,#e08b1c);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 0 #5a2a00)}
+h2{font-family:var(--f-disp);font-weight:400;font-size:20px;color:var(--gold)}
+.sub{font-size:13px;color:var(--muted)}
+header.top{padding-top:14px;display:flex;align-items:center;gap:10px;justify-content:space-between}
+header.top .ttl{min-width:0}
+.ver{font-size:11px;color:var(--muted);white-space:nowrap}
+
+/* keychain bar */
+#sanBar{position:relative;height:178px;overflow:hidden;touch-action:pan-y}
+#sanBar .rod{position:absolute;left:6px;right:6px;top:10px;height:12px;border-radius:6px;
+  background:linear-gradient(180deg,#fff3c0,#e3a92a 45%,#9a6a10);box-shadow:0 3px 6px rgba(0,0,0,.5)}
+#sanBar .rod::before,#sanBar .rod::after{content:"";position:absolute;top:-4px;width:20px;height:20px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#fff7d0,#d9971c 60%,#7a5208)}
+#sanBar .rod::before{left:-6px}#sanBar .rod::after{right:-6px}
+.san{position:absolute;top:16px;width:0;height:0;cursor:pointer;z-index:2}
+.san .sw{position:absolute;left:0;top:0;width:0;height:0;transform-origin:0 0;will-change:transform}
+.san img{position:absolute;max-width:none;pointer-events:none;filter:drop-shadow(0 6px 5px rgba(0,0,0,.45))}
+.san svg{position:absolute;left:-12px;top:-12px;overflow:visible;pointer-events:none}
+.san .hit{position:absolute;left:-22px;top:-10px;width:44px;height:140px}
+.sanHint{position:absolute;right:8px;bottom:0;font-size:11px;color:var(--muted);background:rgba(29,22,64,.7);padding:1px 8px;border-radius:10px}
+
+/* guide */
+.guide{display:grid;grid-template-columns:118px 1fr;gap:10px;align-items:center}
+.guide .shi{width:118px;aspect-ratio:320/411;border-radius:18px;overflow:hidden;background:#fff;border:3px solid var(--gold);
+  box-shadow:0 6px 0 #8a5a10,0 10px 20px rgba(0,0,0,.4);transform-origin:50% 100%}
+.guide .shi img{width:100%;height:100%;object-fit:cover;display:block}
+.shi.talk{animation:hop .5s ease-in-out 3}
+@keyframes hop{0%,100%{transform:translateY(0) scale(1)}40%{transform:translateY(-10px) scale(1.04,.97)}70%{transform:translateY(0) scale(.98,1.03)}}
+.bubble{position:relative;background:var(--cream);color:var(--ink);border-radius:18px;padding:12px 14px;font-weight:800;font-size:15px;line-height:1.55;
+  box-shadow:0 4px 0 #c9b98a;min-width:0}
+.bubble::before{content:"";position:absolute;left:-10px;top:50%;margin-top:-10px;border:10px solid transparent;border-right-color:var(--cream);border-left:0}
+.bubble small{display:block;font-weight:500;font-size:12px;color:#5b4d8c;margin-top:4px}
+
+/* banner */
+.bannerWrap{position:relative;background:var(--banner);border-radius:16px;height:96px;overflow:hidden;cursor:pointer;
+  box-shadow:inset 0 2px 8px rgba(0,0,0,.45),0 0 0 2px #2d2f36}
+.bannerWrap .bn{position:absolute;top:50%;left:100%;height:78px;transform:translate(0,-50%);transition:none}
+.bannerWrap .bn img{height:78px;width:auto;max-width:none;display:block;border-radius:6px}
+.bannerWrap.stop .bn{animation:glow 1.6s ease-in-out infinite}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 0 rgba(255,230,120,0))}50%{filter:drop-shadow(0 0 12px rgba(255,230,120,.95))}}
+.bannerWrap .shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);
+  transform:translateX(-120%);opacity:0}
+.bannerWrap.stop .shine{opacity:1;animation:shine 2.6s ease-in-out infinite}
+@keyframes shine{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
+.bannerTag{position:absolute;right:8px;bottom:6px;font-size:11px;background:rgba(0,0,0,.55);color:#fff;border-radius:8px;padding:0 6px}
+
+/* cards */
+.card{background:linear-gradient(180deg,var(--night2),#241b55);border:2px solid #5243a8;border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.lbl{font-size:13px;color:var(--gold2);font-weight:800;letter-spacing:.04em}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{flex:1 1 0;min-width:84px}
+
+/* buttons */
+button,.btn{font:inherit;font-weight:800;border:0;border-radius:16px;padding:12px 14px;cursor:pointer;color:var(--ink);
+  background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 5px 0 #a8701a,0 8px 14px rgba(0,0,0,.35);
+  transition:transform .06s,box-shadow .06s,filter .06s;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;
+  -webkit-user-select:none;user-select:none;line-height:1.3}
+button:active,.btn:active,button.pressed,.btn.pressed{transform:translateY(5px);box-shadow:0 0 0 #a8701a,0 2px 4px rgba(0,0,0,.35);filter:brightness(.85)}
+button:focus-visible,.btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+button.sec,.btn.sec{background:linear-gradient(180deg,#5b4bc4,#4334a6);color:#fff;box-shadow:0 5px 0 #231a6b,0 8px 14px rgba(0,0,0,.35)}
+button.sec:active,.btn.sec:active,button.sec.pressed{box-shadow:0 0 0 #231a6b}
+button.on{background:linear-gradient(180deg,#ff9cc9,var(--pink));color:#fff;box-shadow:0 5px 0 #a0306a,0 0 0 3px #fff inset}
+button.big{font-size:20px;padding:18px;border-radius:20px;width:100%}
+button.pink{background:linear-gradient(180deg,#ff9cc9,var(--pink));color:#fff;box-shadow:0 5px 0 #a0306a,0 8px 14px rgba(0,0,0,.35)}
+button.pink:active{box-shadow:0 0 0 #a0306a}
+button.ghost{background:transparent;color:var(--cream);box-shadow:none;border:2px solid #6e5fd0}
+button.ghost:active{background:#3a2d80;transform:translateY(2px)}
+input[type=file]{display:none}
+.tips{margin:0;padding-left:20px;font-size:14px;color:var(--muted)}
+.tips li{margin:2px 0}
+.note{font-size:12px;color:var(--muted)}
+
+/* learning map */
+.mapWrap{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+#learnCv{width:100%;max-width:300px;justify-self:center;aspect-ratio:1000/1300;display:block}
+.legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.legend button{justify-content:flex-start;background:#2f2572;color:#fff;box-shadow:0 4px 0 #17104a;font-size:15px;padding:10px 12px}
+.legend button.sel{background:#4d3db8;box-shadow:0 4px 0 #17104a,0 0 0 3px var(--gold) inset}
+.dot{width:14px;height:14px;border-radius:50%;flex:0 0 14px;box-shadow:0 0 8px currentColor}
+.learnText{background:#1a1440;border-radius:14px;padding:12px 14px;font-size:14px;min-height:96px}
+.learnText b{color:var(--gold2)}
+
+/* collection */
+.coll{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory}
+.coll button{flex:0 0 92px;padding:0;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 4px 0 #8a5a10;scroll-snap-align:start;aspect-ratio:320/411;border:3px solid transparent}
+.coll button img{width:100%;height:100%;object-fit:cover;display:block}
+.coll button.on{border-color:var(--pink)}
+
+/* history */
+.hist{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.hist .it{position:relative;display:flex;flex-direction:column;gap:4px}
+.hist .it button.open{padding:0;border-radius:12px;overflow:hidden;aspect-ratio:1000/1300;background:#000;box-shadow:0 4px 0 #17104a}
+.hist .it img{width:100%;height:100%;object-fit:cover;display:block}
+.hist .it .d{font-size:11px;color:var(--muted);text-align:center}
+.hist .it button.del{position:absolute;top:-8px;right:-8px;width:30px;height:30px;padding:0;border-radius:50%;font-size:14px;background:#ff5a7a;color:#fff;box-shadow:0 3px 0 #8c1d34}
+.hist .it button.del.armed{width:auto;padding:0 8px;border-radius:15px;font-size:11px}
+
+/* footer */
+footer{display:flex;flex-direction:column;gap:10px;align-items:stretch}
+footer .row button,footer .row .btn{flex:1 1 140px}
+.disc{font-size:12px;color:var(--muted);text-align:center}
+
+/* overlay screens */
+.screen{position:fixed;inset:0;z-index:50;background:#120d2c;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:calc(env(safe-area-inset-top,0px) + 12px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) max(16px,env(safe-area-inset-left,0px))}
+.screen .inner{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.screen .bar{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cvBox{position:relative;width:100%;max-width:440px;align-self:center}
+.cvBox canvas{width:100%;aspect-ratio:1000/1300;display:block;border-radius:18px;background:#000;touch-action:none}
+#resCv{touch-action:pan-y pinch-zoom;cursor:pointer}
+.lineCard.flash{animation:cardFlash .5s ease-in-out 4}
+@keyframes cardFlash{0%,100%{box-shadow:0 0 0 3px rgba(246,196,69,.35)}50%{box-shadow:0 0 0 6px var(--gold),0 0 24px var(--gold)}}
+.downHint{text-align:center;font-weight:800;color:var(--gold2);font-size:15px;animation:bob 1.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+.tools{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.tools button{padding:10px 0;font-size:18px}
+#scanStatus{min-height:150px;display:flex;flex-direction:column;gap:6px;font-weight:800}
+#scanStatus .st{display:flex;align-items:center;gap:8px;opacity:.35;transition:opacity .3s}
+#scanStatus .st.done{opacity:1}
+#scanStatus .st .mk{margin-left:auto;font-size:13px}
+.progress{height:10px;border-radius:5px;background:#2b2163;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c-head),var(--pink),var(--gold));transition:width .3s}
+
+/* result */
+.lineCard{background:#231a55;border:2px solid #4b3ca6;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px;cursor:pointer}
+.lineCard.sel{border-color:var(--gold);box-shadow:0 0 0 3px rgba(246,196,69,.35)}
+.lineCard h3{font-family:var(--f-disp);font-weight:400;font-size:19px;display:flex;align-items:center;gap:8px}
+.lineCard .where{font-size:14px;background:#1a1440;border-radius:12px;padding:8px 10px}
+.lineCard .where b{color:var(--gold2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;font-weight:800;border-radius:999px;padding:2px 10px;background:#3a2d80;color:#fff}
+.chip.no{background:#4a4060;color:#d6cfee}
+.lineCard p{margin:0;font-size:15px}
+.sumBox{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center}
+.sumBox .shi{width:96px;aspect-ratio:320/411;border-radius:14px;overflow:hidden;background:#fff;border:3px solid var(--gold);transform-origin:50% 100%}
+.sumBox .shi img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;
+  padding:calc(env(safe-area-inset-top,0px) + 16px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 16px) max(16px,env(safe-area-inset-left,0px))}
+.modal .box{background:var(--night2);border:2px solid var(--gold);border-radius:22px;max-width:480px;width:100%;max-height:100%;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:12px}
+.modal .box img{width:100%;border-radius:10px}
+.modal ol{margin:0;padding-left:22px}
+.modal h3{color:var(--gold);font-size:17px}
+.dev{border:2px dashed #6e5fd0;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 20px);transform:translateX(-50%);z-index:99;background:var(--cream);color:var(--ink);font-weight:800;
+  padding:10px 18px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.4);max-width:90vw;text-align:center}
+.pp{background:#1a1440;border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.pp .seg button{min-width:0;font-size:14px;padding:10px 6px}
+.ppStat{font-size:13px;font-weight:800;color:var(--ok)}
+.ppStat:empty{display:none}
+#pairCard{border-color:#ff6fae;background:linear-gradient(180deg,#3b1f5e,#2a1650)}
+#pairHist{display:flex;flex-direction:column;gap:8px}
+.phRow{display:flex;gap:8px;align-items:center}
+.phRow button.sec{flex:1 1 auto;min-width:0;justify-content:flex-start;font-size:14px;padding:10px 12px;text-align:left}
+.phRow button.phDel{flex:0 0 auto;width:36px;height:36px;padding:0;border-radius:50%;background:#ff5a7a;color:#fff;box-shadow:0 3px 0 #8c1d34;font-size:14px}
+.phRow button.phDel.armed{width:auto;padding:0 10px;border-radius:18px;font-size:12px}
+.duo{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:center}
+.duo figure{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
+.duo canvas{width:100%;aspect-ratio:1000/1300;display:block;border-radius:14px;background:#000}
+.duo figcaption{font-size:12px;text-align:center;color:var(--muted);font-weight:800}
+.duo .hrt{font-size:28px;animation:beat 1s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}30%{transform:scale(1.25)}}
+.meter{position:relative;width:200px;height:200px;align-self:center}
+.meter svg{width:100%;height:100%;transform:rotate(-90deg);display:block}
+.meter .trk{fill:none;stroke:#2b2163;stroke-width:18}
+.meter .val{fill:none;stroke:url(#pg);stroke-width:18;stroke-linecap:round}
+.meter .pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-disp);color:var(--gold2)}
+.meter .pct b{font-size:60px;font-weight:400;line-height:1}
+.meter .pct span{font-size:24px;margin-left:2px}
+.rank{text-align:center;font-family:var(--f-disp);font-size:24px;color:var(--pink);text-shadow:0 2px 0 #5a1030}
+.pcCard{background:#231a55;border:2px solid #4b3ca6;border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.pcCard h3{font-size:16px;display:flex;align-items:center;gap:8px;font-weight:800}
+.pcCard h3 .pv{margin-left:auto;color:var(--gold2);font-size:18px;white-space:nowrap}
+.pbar{height:10px;border-radius:5px;background:#1a1440;overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:5px}
+.pcCard p{margin:0;font-size:15px}
+#midCv{width:160px;aspect-ratio:1000/1300;align-self:center;border-radius:14px;background:#000;display:block}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<canvas id="stars" aria-hidden="true"></canvas>
+<main>
+  <header class="top">
+    <div class="ttl">
+      <h1 data-i18n="appTitle">しーちゃんの手相スキャン</h1>
+      <div class="sub" data-i18n="appSub">写真で手のひらの線を読みとって、しっかり解説</div>
+    </div>
+  </header>
+
+  <div id="sanBar" aria-label="ミラテリアの魔除けキーホルダー">
+    <div class="rod"></div>
+    <div class="sanHint" data-i18n="sanHint">タップでお店へ</div>
+  </div>
+
+  <section class="guide" aria-live="polite">
+    <div class="shi" id="guideShi"><img id="guideShiImg" alt="しーちゃん" src="img/shi11.jpg"></div>
+    <div class="bubble" id="guideBubble"></div>
+  </section>
+
+  <div class="bannerWrap" id="banner" role="button" tabindex="0" aria-label="ミラテリア">
+    <div class="bn" id="bannerImg"><img src="img/logo.png" alt="MIRATERIA ミラテリア B型就労"></div>
+    <div class="shine"></div>
+    <div class="bannerTag" data-i18n="bannerTag">タップ</div>
+  </div>
+
+  <section class="card" id="scanCard">
+    <h2 data-i18n="scanTitle">手のひらをスキャン</h2>
+    <div>
+      <div class="lbl" data-i18n="genderLbl">性別（えらばなくてもOK）</div>
+      <div class="seg" id="genderSeg">
+        <button type="button" class="sec" data-g="m" data-i18n="male">男性</button>
+        <button type="button" class="sec" data-g="f" data-i18n="female">女性</button>
+        <button type="button" class="sec" data-g="n" data-i18n="noAns">答えない</button>
+      </div>
+    </div>
+    <div>
+      <div class="lbl" data-i18n="domLbl">利き手</div>
+      <div class="seg" id="domSeg">
+        <button type="button" class="sec" data-d="right" data-i18n="rightHanded">右利き</button>
+        <button type="button" class="sec" data-d="left" data-i18n="leftHanded">左利き</button>
+      </div>
+    </div>
+    <div>
+      <div class="lbl" data-i18n="handLbl">どちらの手を見る？</div>
+      <div class="seg" id="handSeg">
+        <button type="button" class="sec" data-h="right" data-i18n="rightHand">右手</button>
+        <button type="button" class="sec" data-h="left" data-i18n="leftHand">左手</button>
+      </div>
+      <p class="note" id="handAdvice" style="margin:8px 0 0"></p>
+    </div>
+    <ul class="tips">
+      <li data-i18n="tip1">明るい場所で、手のひらを上に向けて撮ってね</li>
+      <li data-i18n="tip2">指を上にして、手首まで入るように</li>
+      <li data-i18n="tip3">指は軽く開いて、手のひらはまっすぐ</li>
+    </ul>
+    <label class="btn big pink" for="camIn" style="width:100%;font-size:20px;padding:18px;border-radius:20px" data-i18n="takePhoto">📷 手のひらを撮る</label>
+    <input type="file" id="camIn" accept="image/*" capture="environment">
+    <label class="btn sec" for="libIn" style="width:100%" data-i18n="pickPhoto">🖼️ 写真から選ぶ</label>
+    <input type="file" id="libIn" accept="image/*">
+    <p class="note" data-i18n="privacy">写真はスマホの中だけで使い、どこにも送りません。通信がなくても使えます。</p>
+  </section>
+
+  <section class="card" id="pairCard">
+    <h2 data-i18n="pairTitle">💞 ふたりの相性占い</h2>
+    <p class="note" style="margin:0" data-i18n="pairNote"></p>
+    <div class="pp" id="ppA"></div>
+    <div class="pp" id="ppB"></div>
+    <label class="btn big pink" for="pairCamIn" id="pairGo" style="width:100%;font-size:20px;padding:18px;border-radius:20px"></label>
+    <input type="file" id="pairCamIn" accept="image/*" capture="environment">
+    <label class="btn sec" for="pairLibIn" style="width:100%" data-i18n="pairPick"></label>
+    <input type="file" id="pairLibIn" accept="image/*">
+    <button type="button" class="ghost" id="pairReset" hidden data-i18n="pairReset"></button>
+    <div id="pairHist" hidden></div>
+  </section>
+
+  <section class="card" id="histCard" hidden>
+    <h2 data-i18n="histTitle">前の結果</h2>
+    <div class="hist" id="hist"></div>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="learnTitle">手相の線はどこ？</h2>
+    <p class="note" style="margin:0" data-i18n="learnNote">線の名前を押すと、その線が光ります。</p>
+    <div class="mapWrap">
+      <canvas id="learnCv" width="600" height="780"></canvas>
+      <div class="legend" id="legend"></div>
+      <div class="learnText" id="learnText"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2 data-i18n="collTitle">しーちゃん 季節のおきがえ</h2>
+    <p class="note" style="margin:0" data-i18n="collNote">押すと、その衣装のしーちゃんが案内します。</p>
+    <div class="coll" id="coll"></div>
+  </section>
+
+  <footer>
+    <div class="row">
+      <button type="button" class="sec" id="homeBtn" data-i18n="homeBtn">📲 ホーム画面に追加の説明</button>
+      <a class="btn" id="instaBtn" href="https://www.instagram.com/mirateria.project/" target="_blank" rel="noopener" data-i18n="insta">📸 インスタグラム</a>
+      <button type="button" class="pink shotb" data-i18n="shotBtn">📸 画面全体を画像で保存</button>
+    </div>
+    <div class="dev" id="devBox" hidden>
+      <div class="lbl" data-i18n="devTitle">GitHub用ファイル（このアーティファクトだけに出ます）</div>
+      <button type="button" id="zipBtn" data-i18n="zipBtn">📦 ZIPを保存（全ファイル）</button>
+    </div>
+    <p class="disc" data-i18n="disc">手相占いは楽しむためのものです。健康や将来を決めるものではありません。</p>
+    <p class="disc"><span data-i18n="verLbl">バージョン</span> <span id="verTxt"></span> ・ MIRATERIA</p>
+  </footer>
+</main>
+
+<!-- align screen -->
+<section class="screen" id="alignScr" hidden>
+  <div class="inner">
+    <div class="bar"><h2 data-i18n="alignTitle">手を枠に合わせてね</h2><button type="button" class="ghost" id="alignClose" data-i18n="back">もどる</button></div>
+    <p class="note" style="margin:0" data-i18n="alignNote">1本指でずらす・2本指で大きさと向きを合わせます。手のひらの線が見えやすいように。</p>
+    <div class="cvBox"><canvas id="alignCv"></canvas></div>
+    <div class="tools">
+      <button type="button" class="sec" id="tZoomOut" aria-label="小さく">－</button>
+      <button type="button" class="sec" id="tZoomIn" aria-label="大きく">＋</button>
+      <button type="button" class="sec" id="tRotL" aria-label="左に回す">⟲</button>
+      <button type="button" class="sec" id="tRotR" aria-label="右に回す">⟳</button>
+      <button type="button" class="sec" id="tAuto" aria-label="自動" data-i18n="auto">自動</button>
+    </div>
+    <button type="button" class="big pink" id="goScan" data-i18n="goScan">✨ この位置でスキャン</button>
+  </div>
+</section>
+
+<!-- scan screen -->
+<section class="screen" id="scanScr" hidden>
+  <div class="inner">
+    <h2 data-i18n="scanning">スキャン中…</h2>
+    <div class="cvBox"><canvas id="scanCv"></canvas></div>
+    <div class="progress"><i id="prog"></i></div>
+    <div id="scanStatus"></div>
+  </div>
+</section>
+
+<!-- result screen -->
+<section class="screen" id="resScr" hidden>
+  <div class="inner">
+    <div class="bar"><h2 data-i18n="resTitle">診断結果</h2><button type="button" class="ghost" id="resClose" data-i18n="close">とじる</button></div>
+    <div class="sumBox">
+      <div class="shi" id="resShi"><img id="resShiImg" alt="しーちゃん" src="img/shi11.jpg"></div>
+      <div class="bubble" id="resBubble"></div>
+    </div>
+    <div class="cvBox"><canvas id="resCv"></canvas></div>
+    <p class="note" style="margin:0" data-i18n="resNote">写真の線をタップすると、その線の説明に移動します。</p>
+    <div class="downHint" data-i18n="downHint">↓ 線の説明は下にあります ↓</div>
+    <div id="resCards" style="display:flex;flex-direction:column;gap:12px"></div>
+    <p class="note" id="resHandNote" style="margin:0"></p>
+    <button type="button" class="big pink shotb" data-i18n="shotBtn">📸 画面全体を画像で保存</button>
+    <button type="button" class="big" id="again" data-i18n="again">📷 もう一度撮る</button>
+    <p class="disc" data-i18n="disc">手相占いは楽しむためのものです。健康や将来を決めるものではありません。</p>
+  </div>
+</section>
+
+<!-- pair: between person A and B -->
+<section class="screen" id="pairMidScr" hidden>
+  <div class="inner">
+    <div class="bar"><h2 data-i18n="midTitle"></h2><button type="button" class="ghost" id="midStop" data-i18n="midStop"></button></div>
+    <div class="sumBox"><div class="shi" id="midShi"><img id="midShiImg" alt="しーちゃん" src="img/shi11.jpg"></div><div class="bubble" data-i18n="midTalk"></div></div>
+    <canvas id="midCv"></canvas>
+    <label class="btn big pink" for="pairCamIn" style="width:100%;font-size:20px;padding:18px;border-radius:20px" data-i18n="pairTakeB"></label>
+    <label class="btn sec" for="pairLibIn" style="width:100%" data-i18n="pairPick"></label>
+  </div>
+</section>
+
+<!-- pair result -->
+<section class="screen" id="pairScr" hidden>
+  <div class="inner">
+    <div class="bar"><h2 data-i18n="pairResTitle"></h2><button type="button" class="ghost" id="pairClose" data-i18n="close">とじる</button></div>
+    <div class="duo">
+      <figure><canvas id="pairCvA"></canvas><figcaption id="pairCapA"></figcaption></figure>
+      <div class="hrt" aria-hidden="true">💞</div>
+      <figure><canvas id="pairCvB"></canvas><figcaption id="pairCapB"></figcaption></figure>
+    </div>
+    <div class="meter" role="img" id="pairMeter">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6fae"/><stop offset="1" stop-color="#f6c445"/></linearGradient></defs>
+        <circle class="trk" cx="100" cy="100" r="86"/><circle class="val" id="pairArc" cx="100" cy="100" r="86"/></svg>
+      <div class="pct"><div><b id="pairPct">0</b><span>%</span></div></div>
+    </div>
+    <div class="rank" id="pairRank"></div>
+    <div class="sumBox"><div class="shi" id="pairShi"><img id="pairShiImg" alt="しーちゃん" src="img/shi11.jpg"></div><div class="bubble" id="pairBubble"></div></div>
+    <div id="pairCards" style="display:flex;flex-direction:column;gap:12px"></div>
+    <button type="button" class="big shotb" data-i18n="shotBtn">📸 画面全体を画像で保存</button>
+    <button type="button" class="big pink" id="pairAgain" data-i18n="pairAgain"></button>
+    <p class="disc" data-i18n="pairDisc"></p>
+  </div>
+</section>
+
+<div class="modal" id="modal" hidden><div class="box" id="modalBox"></div></div>
+
+<script>
+(()=>{
+'use strict';
+const VERSION='1.2.0';
+const LANG=((navigator.languages&&navigator.languages[0])||navigator.language||'ja').toLowerCase().startsWith('ja')?'ja':'en';
+document.documentElement.lang=LANG;
+const SHOP_URL='https://www.instagram.com/mirateria.project/';
+const ADDRESS={ja:'沖縄県島尻郡八重瀬町長毛379-3',en:'379-3 Nagake, Yaese-cho, Shimajiri-gun, Okinawa, Japan'};
+
+/* ---------- text ---------- */
+const T={ja:{
+appTitle:'しーちゃんの手相スキャン',appSub:'写真で手のひらの線を読みとって、しっかり解説',sanHint:'タップでお店へ',bannerTag:'タップ',
+scanTitle:'手のひらをスキャン',genderLbl:'性別（えらばなくてもOK）',male:'男性',female:'女性',noAns:'答えない',domLbl:'利き手',rightHanded:'右利き',leftHanded:'左利き',
+handLbl:'どちらの手を見る？',rightHand:'右手',leftHand:'左手',tip1:'明るい場所で、手のひらを上に向けて撮ってね',tip2:'指を上にして、手首まで入るように',tip3:'指は軽く開いて、手のひらはまっすぐ',
+takePhoto:'📷 手のひらを撮る',pickPhoto:'🖼️ 写真から選ぶ',privacy:'写真はスマホの中だけで使い、どこにも送りません。通信がなくても使えます。',
+histTitle:'前の結果',learnTitle:'手相の線はどこ？',learnNote:'線の名前を押すと、その線が光ります。',collTitle:'しーちゃん 季節のおきがえ',collNote:'押すと、その衣装のしーちゃんが案内します。',
+homeBtn:'📲 ホーム画面に追加の説明',insta:'📸 インスタグラム',devTitle:'GitHub用ファイル（このアーティファクトだけに出ます）',zipBtn:'📦 ZIPを保存（全ファイル）',
+disc:'手相占いは楽しむためのものです。健康や将来を決めるものではありません。',verLbl:'バージョン',
+alignTitle:'手を枠に合わせてね',back:'もどる',alignNote:'1本指でずらす・2本指で大きさと向きを合わせます。',auto:'自動',goScan:'✨ この位置でスキャン',
+scanning:'スキャン中…',resTitle:'診断結果',close:'とじる',resNote:'写真の線をタップすると、その線の説明に移動します。',downHint:'↓ 線の説明は下にあります ↓',tapMiss:'線の上をタップしてね',again:'📷 もう一度撮る',
+hello:'八重瀬町のゆるキャラ「しーちゃん」だよ！手のひらを撮ってくれたら、線をひとつずつ見つけて説明するね。',helloSmall:'まずは見る手をえらんでね',
+alignTalk:'手の形の枠に、写真の手を重ねてね！',scanTalk:'しっかり見てるよ…じーっ',
+adviceDom:'利き手は「今の自分とこれから」、反対の手は「生まれ持った性質」をあらわすといわれます。',
+adviceM:'昔は「男性は左手」を見るといわれていました。今は利き手で見るのが一般的です。',adviceF:'昔は「女性は右手」を見るといわれていました。今は利き手で見るのが一般的です。',
+adviceNow:'いま選んでいる手：',adviceIsDom:'（利き手＝今とこれから）',adviceIsOther:'（反対の手＝生まれ持った性質）',
+st_prep:'写真をととのえています',found:'見つけた！',notFound:'うすい・見つからない',
+loadErr:'写真を読みこめませんでした。別の写真でためしてね。',saved:'結果を保存しました',delAsk:'もう一度押すと消えます',deleted:'消しました',
+len:'長さ',str:'濃さ',shape:'形',count:'本数',
+len_long:'長い',len_mid:'ふつう',len_short:'短め',str_strong:'くっきり',str_mid:'ふつう',str_soft:'うすめ',
+arc_wide:'大きく張り出す',arc_normal:'ふつうのカーブ',arc_narrow:'親指寄り',slope_down:'小指側へ下がる',slope_balance:'ほどよい傾き',slope_straight:'まっすぐ横',
+join_joined:'生命線とくっついて始まる',join_separate:'生命線と離れて始まる',curve_up:'上向きカーブ',curve_gentle:'ゆるやか',curve_straight:'まっすぐ',
+foundChip:'あり',noneChip:'はっきり見えない',lines:'本',
+homeTitle:'ホーム画面に追加するには',homeIos:'iPhone（Safari）',homeIos1:'画面の下の「共有」ボタン（□に↑）を押す',homeIos2:'「ホーム画面に追加」を押す',homeIos3:'右上の「追加」を押す',
+homeAnd:'Android',homeAndC:'Chromeで開いてね',homeAnd1:'右上の「︙」を押す',homeAnd2:'「アプリをインストール」または「ホーム画面に追加」を押す',installNow:'⬇️ いますぐインストール',
+homeNote:'アプリを更新すると、ホーム画面のアイコンからも自動で新しい版になります。',ok:'OK',
+bnTitle:'ミラテリア（B型就労）',bnText:'仲間が作った魔除けの「サン」なども販売しています。',bnInsta:'📸 インスタを見る',
+sanTitle:'魔除けの「サン」',sanText:'ミラテリアの仲間が作っています。お店で販売中！',sanGo:'🛍️ お店を見る',
+zipOk:'ZIPを保存しました',zipNg:'保存できませんでした',offline:'通信なし：スマホの中だけで動いています',
+updated:'新しい版になりました',
+sumTpl:'あなたは「{a}」×「{b}」タイプ！{c}',
+sumA_down:'アイデアいっぱい',sumA_balance:'バランス上手',sumA_straight:'しっかり者',sumA_x:'ふしぎ',
+sumB_up:'愛情たっぷり',sumB_gentle:'やさしさ',sumB_straight:'クール',sumB_x:'ひみつ',
+sumC_wide:'元気パワー全開だね！',sumC_normal:'元気とおちつきのバランスがいいね！',sumC_narrow:'マイペースが一番だね！',sumC_x:'明るい所で撮るともっと分かるよ！',
+sumSmall:'線のカードを押して、くわしく見てね',
+retakeHint:'線が見つかりにくいときは、明るい所で、手のひらに影が入らないように撮り直してね。'
+},en:{
+appTitle:"Shi-chan's Palm Scan",appSub:'Snap your palm and get every line found and explained',sanHint:'Tap to visit the shop',bannerTag:'Tap',
+scanTitle:'Scan your palm',genderLbl:'Gender (optional)',male:'Male',female:'Female',noAns:'Prefer not to say',domLbl:'Dominant hand',rightHanded:'Right-handed',leftHanded:'Left-handed',
+handLbl:'Which hand to read?',rightHand:'Right hand',leftHand:'Left hand',tip1:'Take it in a bright place, palm facing up',tip2:'Fingers pointing up, include your wrist',tip3:'Spread your fingers a little, keep the palm flat',
+takePhoto:'📷 Take a palm photo',pickPhoto:'🖼️ Choose a photo',privacy:'Your photo stays on this phone and is never sent anywhere. Works offline.',
+histTitle:'Past results',learnTitle:'Where are the palm lines?',learnNote:'Tap a line name to light it up.',collTitle:"Shi-chan's seasonal outfits",collNote:'Tap one and that Shi-chan becomes your guide.',
+homeBtn:'📲 How to add to Home Screen',insta:'📸 Instagram',devTitle:'Files for GitHub (shown only in this artifact)',zipBtn:'📦 Save ZIP (all files)',
+disc:'Palm reading is just for fun. It does not decide your health or future.',verLbl:'Version',
+alignTitle:'Line your hand up with the outline',back:'Back',alignNote:'One finger to move, two fingers to resize and rotate.',auto:'Auto',goScan:'✨ Scan in this position',
+scanning:'Scanning…',resTitle:'Your reading',close:'Close',resNote:'Tap a line on the photo to jump to its explanation.',downHint:'↓ Line explanations are below ↓',tapMiss:'Tap right on a line',again:'📷 Take another',
+hello:"I'm Shi-chan, the mascot of Yaese Town! Send me a photo of your palm and I'll find and explain each line.",helloSmall:'First, choose which hand to read',
+alignTalk:'Fit your hand inside the hand-shaped outline!',scanTalk:'Looking closely… hmm',
+adviceDom:'Your dominant hand is said to show your present and future; the other hand shows the nature you were born with.',
+adviceM:'Traditionally, men read the left hand. Today most people read the dominant hand.',adviceF:'Traditionally, women read the right hand. Today most people read the dominant hand.',
+adviceNow:'Selected hand: ',adviceIsDom:' (dominant = present and future)',adviceIsOther:' (other hand = inborn nature)',
+st_prep:'Preparing the photo',found:'Found!',notFound:'Faint / not found',
+loadErr:'Could not read that photo. Please try another one.',saved:'Result saved',delAsk:'Tap again to delete',deleted:'Deleted',
+len:'Length',str:'Depth',shape:'Shape',count:'Count',
+len_long:'Long',len_mid:'Medium',len_short:'Short',str_strong:'Clear',str_mid:'Medium',str_soft:'Faint',
+arc_wide:'Wide curve',arc_normal:'Normal curve',arc_narrow:'Close to thumb',slope_down:'Slopes down',slope_balance:'Gentle slope',slope_straight:'Straight across',
+join_joined:'Starts joined to life line',join_separate:'Starts apart from life line',curve_up:'Curves upward',curve_gentle:'Gentle',curve_straight:'Straight',
+foundChip:'Found',noneChip:'Not clear',lines:'',
+homeTitle:'Add to your Home Screen',homeIos:'iPhone (Safari)',homeIos1:'Tap the Share button (square with ↑) at the bottom',homeIos2:'Tap "Add to Home Screen"',homeIos3:'Tap "Add" at the top right',
+homeAnd:'Android',homeAndC:'Open this page in Chrome',homeAnd1:'Tap "︙" at the top right',homeAnd2:'Tap "Install app" or "Add to Home screen"',installNow:'⬇️ Install now',
+homeNote:'When the app is updated, the Home Screen icon opens the new version automatically.',ok:'OK',
+bnTitle:'MIRATERIA (work support center)',bnText:'We also sell handmade "San" charms made by our members.',bnInsta:'📸 See Instagram',
+sanTitle:'"San" protective charms',sanText:'Handmade by MIRATERIA members. On sale at our shop!',sanGo:'🛍️ Visit the shop',
+zipOk:'ZIP saved',zipNg:'Could not save',offline:'Offline: running on this phone only',
+updated:'Updated to the new version',
+sumTpl:'You are a "{a}" × "{b}" type! {c}',
+sumA_down:'Idea-rich',sumA_balance:'Well-balanced',sumA_straight:'Steady',sumA_x:'Mysterious',
+sumB_up:'Big-hearted',sumB_gentle:'Kind',sumB_straight:'Cool',sumB_x:'Secret',
+sumC_wide:'Full of energy!',sumC_normal:'Energy and calm in good balance!',sumC_narrow:'Your own pace is best!',sumC_x:'A brighter photo will tell me more!',
+sumSmall:'Tap the line cards for details',
+retakeHint:'If lines are hard to find, retake the photo in a bright place without shadows on your palm.'
+}};
+Object.assign(T.ja,{
+pairTitle:'💞 ふたりの相性占い',pairNote:'ふたりの手相を続けて撮って、相性を0〜100%で出します。',
+personA:'ひとりめ',personB:'ふたりめ',pairTakeA:'📷 ひとりめの手を撮る',pairTakeB:'📷 ふたりめの手を撮る',pairPick:'🖼️ 写真から選ぶ',
+pairReset:'最初からやり直す',pairResetDone:'最初からにしました',pairShot:'撮影ずみ',
+pairAlignA:'ひとりめの手を枠に合わせてね',pairAlignB:'ふたりめの手を枠に合わせてね',
+midTitle:'ひとりめ OK！',midTalk:'ひとりめの手相、読みとれたよ！次は、ふたりめの手を撮ってね。',midStop:'あとで撮る',
+pairResTitle:'ふたりの相性',pairSmall:'下で、線ごとの相性を見てね',pairHistTitle:'前の相性',pairAgain:'💞 別のふたりを占う',
+pairDisc:'相性占いは楽しむためのものです。ふたりの関係を決めるものではありません。',pairMeter:'相性',
+rank_r5:'運命のふたり！',rank_r4:'とっても相性よし',rank_r3:'相性よし',rank_r2:'まあまあ',rank_r1:'ちょっと努力が必要',rank_r0:'正反対のふたり',
+rt_r5:'すごい！こんなにぴったりのふたりは、なかなかいないよ！',
+rt_r4:'とってもいい感じ！いっしょにいると自然と笑顔になれるふたりだね。',
+rt_r3:'相性いいね！おたがいのいい所を出し合えるよ。',
+rt_r2:'まあまあだね。ちがう所もあるけど、話し合えばもっと仲よくなれるよ。',
+rt_r1:'ちがいが多いふたり。でも、ちがうからこそ学べることがたくさんあるよ！',
+rt_r0:'正反対のふたり！おたがいにないものを持っているから、助け合えるよ。',
+pcn_heart:'感情線（愛情の伝え方）',pcn_head:'頭脳線（考え方）',pcn_life:'生命線（生活のペース）',pcn_goal:'運命線・太陽線（目標と夢）',pcn_marriage:'結婚線（ご縁）',
+pc_missing:'どちらかの線が見つからなかったので、ふつうとして計算しました。',
+pc_heart_up_up:'ふたりとも愛情表現がたっぷり。気持ちをまっすぐ伝え合えるペアです。',
+pc_heart_up_gentle:'情熱的な人と、やさしく受け止める人。自然とバランスがとれます。',
+pc_heart_up_straight:'気持ちを表に出す人と、クールな人。伝え方のちがいを分かり合えると◎。',
+pc_heart_gentle_gentle:'どちらも思いやりタイプ。おだやかで安心できる関係になりやすいです。',
+pc_heart_gentle_straight:'やさしさと冷静さの組み合わせ。落ち着いた関係になれます。',
+pc_heart_straight_straight:'ふたりとも理性的。ベタベタしないけど、信頼でつながるペアです。',
+pc_head_down_down:'ふたりとも発想ゆたか。話が盛り上がるけど、決めごとはメモしておくと◎。',
+pc_head_down_balance:'アイデア役と、まとめ役。ふたりで考えるとうまく進みます。',
+pc_head_down_straight:'夢を描く人と、現実的に進める人。役割分担がハマるペア。',
+pc_head_balance_balance:'考え方が似ていて、話がスムーズに通じます。',
+pc_head_balance_straight:'どちらも筋道を大事にするので、相談ごとがまとまりやすいです。',
+pc_head_straight_straight:'ふたりとも現実派のしっかり者。たまには遊び心も入れてみて。',
+pc_life_wide_wide:'ふたりとも元気いっぱい。いっしょに出かけるのが楽しいペア。',
+pc_life_wide_normal:'元気な人に、ほどよくついていける、バランスのいい組み合わせ。',
+pc_life_wide_narrow:'アクティブな人とマイペースな人。ペースを合わせる思いやりがカギ。',
+pc_life_normal_normal:'生活のペースが近く、いっしょにいて疲れにくいふたり。',
+pc_life_normal_narrow:'ゆったり派と、ほどよい派。のんびり過ごす時間が合います。',
+pc_life_narrow_narrow:'ふたりともマイペース。おうち時間をいっしょに楽しめます。',
+pc_goal_both:'どちらも目標に向かって進むタイプ。応援し合えるペアです。',
+pc_goal_one:'目標に進む人と、それを支える人。いいチームになれます。',
+pc_goal_none:'ふたりとも自由に生きるタイプ。決まりにしばられない関係です。',
+pc_sun:'太陽線もあって、いっしょにいると楽しさが広がりそう。',
+pc_mar_same:'結婚線の数が同じ。人とのご縁の感じ方が似ています。',
+pc_mar_both:'結婚線がどちらにもあって、ご縁を大切にするふたりです。',
+pc_mar_one:'結婚線が見えにくい人がいますが、薄いだけのことも多いです。',
+pc_mar_none:'ふたりとも結婚線が見えにくめ。これからご縁が育っていくタイプです。'
+});
+Object.assign(T.en,{
+pairTitle:'💞 Compatibility for two',pairNote:'Snap two palms in a row and get your compatibility from 0 to 100%.',
+personA:'Person 1',personB:'Person 2',pairTakeA:'📷 Snap person 1',pairTakeB:'📷 Snap person 2',pairPick:'🖼️ Choose a photo',
+pairReset:'Start over',pairResetDone:'Started over',pairShot:'Done',
+pairAlignA:"Fit person 1's hand to the outline",pairAlignB:"Fit person 2's hand to the outline",
+midTitle:'Person 1 OK!',midTalk:"Got person 1's palm! Now snap person 2's hand.",midStop:'Later',
+pairResTitle:'Your compatibility',pairSmall:'See each line below',pairHistTitle:'Past results',pairAgain:'💞 Try another pair',
+pairDisc:'Compatibility reading is just for fun. It does not decide your relationship.',pairMeter:'Compatibility',
+rank_r5:'Made for each other!',rank_r4:'Great match',rank_r3:'Good match',rank_r2:'Not bad',rank_r1:'Needs some effort',rank_r0:'Total opposites',
+rt_r5:"Wow! A pair this perfect is really rare!",
+rt_r4:"So good! You two smile naturally together.",
+rt_r3:"Nice match! You bring out each other's best.",
+rt_r2:"Not bad. You differ in places, but talking it over brings you closer.",
+rt_r1:"Lots of differences — and lots to learn from each other!",
+rt_r0:"Total opposites! Each has what the other lacks, so you can help each other.",
+pcn_heart:'Heart line (showing love)',pcn_head:'Head line (thinking)',pcn_life:'Life line (pace of life)',pcn_goal:'Fate & sun lines (goals)',pcn_marriage:'Marriage lines (bonds)',
+pc_missing:"One of the lines wasn't found, so it was counted as average.",
+pc_heart_up_up:'Both show love openly. You tell each other your feelings straight.',
+pc_heart_up_gentle:'A passionate one and a gentle one. You balance naturally.',
+pc_heart_up_straight:'One shows feelings, one stays cool. Understanding the difference is key.',
+pc_heart_gentle_gentle:'Both caring types. A calm, safe relationship comes easily.',
+pc_heart_gentle_straight:'Kindness meets calm. A settled relationship.',
+pc_heart_straight_straight:'Both rational. Not clingy, but joined by trust.',
+pc_head_down_down:'Both full of ideas. Great talks — write your plans down!',
+pc_head_down_balance:'An idea person and an organizer. Thinking together works well.',
+pc_head_down_straight:'A dreamer and a doer. Your roles fit nicely.',
+pc_head_balance_balance:'Similar ways of thinking — you understand each other easily.',
+pc_head_balance_straight:'Both value logic, so decisions come together smoothly.',
+pc_head_straight_straight:'Both practical and steady. Add some playfulness now and then.',
+pc_life_wide_wide:'Both full of energy. Going out together is fun.',
+pc_life_wide_normal:'One energetic, one keeps up just right. A good balance.',
+pc_life_wide_narrow:'Active meets easygoing. Matching your pace is the key.',
+pc_life_normal_normal:'Similar pace of life — easy to be together.',
+pc_life_normal_narrow:'Relaxed meets moderate. Slow time together suits you.',
+pc_life_narrow_narrow:'Both go at their own pace. You enjoy cozy time at home.',
+pc_goal_both:'Both move toward goals. You cheer each other on.',
+pc_goal_one:'One chases goals, one supports. A good team.',
+pc_goal_none:'Both free spirits. A relationship without rules.',
+pc_sun:' Sun lines too — fun grows when you are together.',
+pc_mar_same:'Same number of marriage lines. You feel bonds in a similar way.',
+pc_mar_both:'Both have marriage lines — you both value bonds.',
+pc_mar_one:"One person's marriage lines are faint — often they're just light.",
+pc_mar_none:'Both have faint marriage lines. Bonds will grow from here.'
+});
+Object.assign(T.ja,{shotBtn:'📸 画面全体を画像で保存',shotMaking:'画像を作っています。数秒かかります…',shotDone:'✅ 画面全体の画像ができました。',
+shotHint:'📱 画像を長押しで保存できます。iPhoneは「写真に追加」、Androidは「画像をダウンロード」を選んでね',shotShare:'📤 保存する・送る',shotFail:'画像を作れませんでした。もう一度ためしてね。'});
+Object.assign(T.en,{shotBtn:'📸 Save the whole screen as an image',shotMaking:'Making the image. This takes a few seconds…',shotDone:'✅ The whole-screen image is ready.',
+shotHint:'📱 Long-press the image to save it. iPhone: "Add to Photos". Android: "Download image".',shotShare:'📤 Save / send',shotFail:'Could not make the image. Please try again.'});
+const t=k=>(T[LANG][k]!==undefined?T[LANG][k]:(T.ja[k]!==undefined?T.ja[k]:k));
+document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.dataset.i18n)});
+document.title=t('appTitle');
+document.getElementById('verTxt').textContent=VERSION;
+
+/* ---------- line knowledge ---------- */
+const INFO={ja:{
+life:{name:'生命線',where:'親指と人差し指のあいだから始まって、親指のつけ根のふくらみをぐるっと囲むように、手首のほうへのびる線です。',mean:'体力・元気・生活のエネルギーをあらわします。※線の長さは寿命の長さではありません。'},
+head:{name:'頭脳線',where:'生命線と同じあたり（親指と人差し指のあいだ）から始まって、手のひらの真ん中を横切り、小指側へのびる線です。',mean:'考え方・ものごとの決め方・才能の向きをあらわします。'},
+heart:{name:'感情線',where:'小指の下の手のひらのふちから始まって、指のつけ根の少し下を、人差し指と中指のほうへのびる線です。',mean:'気持ち・愛情・人との関わり方をあらわします。'},
+fate:{name:'運命線',where:'手首の真ん中あたりから、中指に向かって縦にのびる線です。',mean:'仕事・人生の流れ・目標に向かう力をあらわします。'},
+sun:{name:'太陽線',where:'薬指のつけ根の下に、縦にのびる線です。',mean:'人気・成功・まわりから注目される力をあらわします。'},
+marriage:{name:'結婚線',where:'小指のつけ根と感情線のあいだ、手のひらのふち（側面）にある短い横線です。',mean:'結婚・パートナーとのご縁をあらわすといわれます。'}
+},en:{
+life:{name:'Life line',where:'Starts between your thumb and index finger, curves around the mound at the base of your thumb, and runs toward your wrist.',mean:'Shows your stamina, vitality and everyday energy. Its length is NOT the length of your life.'},
+head:{name:'Head line',where:'Starts near the life line (between thumb and index finger) and runs across the middle of your palm toward the little-finger side.',mean:'Shows how you think, decide and where your talents lie.'},
+heart:{name:'Heart line',where:'Starts at the edge of your palm below the little finger and runs just under the finger bases toward the index and middle fingers.',mean:'Shows your feelings, affection and how you relate to people.'},
+fate:{name:'Fate line',where:'Runs straight up from the middle of your wrist toward your middle finger.',mean:'Shows your work, the flow of your life and drive toward goals.'},
+sun:{name:'Sun line',where:'A vertical line under your ring finger.',mean:'Shows popularity, success and attracting attention.'},
+marriage:{name:'Marriage line',where:'Short horizontal lines on the edge of your palm, between the base of the little finger and the heart line.',mean:'Said to show marriage and bonds with partners.'}
+}};
+const READ={ja:{
+life_len_long:'生命線が長くのびています。毎日をコツコツ続けられる、粘り強いタイプです。',
+life_len_mid:'ほどよい長さの生命線。無理をしすぎず、自分のペースで元気に過ごせるタイプです。',
+life_len_short:'短めに見えますが、寿命とは関係ありません。集中して一気に動くのが得意なタイプです。',
+life_arc_wide:'親指のふくらみを大きく囲んでいます。エネルギッシュで行動力があります。',
+life_arc_normal:'バランスのよいカーブ。元気さと落ち着きの両方を持っています。',
+life_arc_narrow:'親指寄りのコンパクトなカーブ。落ち着いていて、無理をしない慎重派です。',
+life_str_strong:'線がくっきりしていて、ここ一番でがんばれる体力があります。',life_str_mid:'',life_str_soft:'線はやさしめ。疲れをためないよう、休むことも大切にすると運気アップ。',
+head_slope_down:'小指側へ下がっていく頭脳線。想像力が豊かで、アイデアや芸術のセンスがあります。',
+head_slope_balance:'ほどよい傾き。現実的な考えと、ひらめきの両方を持っています。',
+head_slope_straight:'まっすぐ横にのびる頭脳線。筋道を立てて考える、しっかり者タイプです。',
+head_len_long:'長めなので、じっくり考えてから決めるタイプ。',head_len_mid:'',head_len_short:'短めなので、直感で素早く決められるタイプ。',
+head_join_joined:'生命線とくっついて始まっています。まわりをよく見て動く慎重派です。',head_join_separate:'生命線と離れて始まっています。思い切りがよく、大胆に行動できます。',
+heart_curve_up:'人差し指のほうへ上がるカーブ。愛情表現が豊かで、情に厚い人です。',
+heart_curve_gentle:'ゆるやかなカーブ。やさしさと冷静さを両方持っています。',
+heart_curve_straight:'まっすぐな感情線。気持ちを落ち着いて伝えられる、クールなタイプです。',
+heart_len_long:'長くのびていて、面倒見がよく、人を大切にします。',heart_len_mid:'',heart_len_short:'短めなので、さっぱりしていて気持ちの切り替えが早いです。',
+fate_strong:'くっきりした運命線があります。目標に向かってまっすぐ進める人です。',
+fate_weak:'うっすらと運命線があります。少しずつ自分の道がはっきりしてきています。',
+fate_none:'はっきりした運命線は見つかりませんでした。決まった道にしばられず、自由に道を作れるタイプです。線はあとから出てくることもあります。',
+sun_found:'太陽線があります。明るさでまわりを引きつけ、人気が集まりやすい人です。',
+sun_none:'太陽線ははっきり見えませんでした。コツコツ型で、これから少しずつ出てくることも多い線です。',
+marriage_0:'結婚線ははっきり見えませんでした。小さい線なので写りにくいこともあります。',
+marriage_1:'結婚線が1本。ひとつのご縁を大切に育てるタイプです。',
+marriage_2:'結婚線が2本。人との出会いが多く、ご縁に恵まれやすいタイプです。',
+marriage_3:'結婚線が3本以上。人なつっこく、たくさんの人に好かれるタイプです。',
+notfound:'はっきり見つかりませんでした。明るい所で、手のひら全体が写るように撮り直すと見つかることがあります。'
+},en:{
+life_len_long:'Your life line runs long. You are persistent and keep things going day by day.',
+life_len_mid:'A medium-length life line. You stay well by moving at your own pace without overdoing it.',
+life_len_short:'It looks short, but that has nothing to do with lifespan. You are good at focused bursts of action.',
+life_arc_wide:'It sweeps widely around the thumb mound. You are energetic and quick to act.',
+life_arc_normal:'A balanced curve. You have both energy and calm.',
+life_arc_narrow:'A compact curve close to the thumb. You are calm and careful not to overdo it.',
+life_str_strong:'The line is clear, showing stamina for the big moments.',life_str_mid:'',life_str_soft:'The line is gentle. Resting well will bring you good luck.',
+head_slope_down:'Your head line slopes toward the little finger. You are imaginative with a sense for ideas and art.',
+head_slope_balance:'A gentle slope. You have both practical thinking and inspiration.',
+head_slope_straight:'A straight head line. You think logically and are dependable.',
+head_len_long:'It is long, so you think carefully before deciding.',head_len_mid:'',head_len_short:'It is short, so you decide quickly by intuition.',
+head_join_joined:'It starts joined to the life line. You look around carefully before acting.',head_join_separate:'It starts apart from the life line. You are bold and decisive.',
+heart_curve_up:'It curves up toward the index finger. You are warm and openly affectionate.',
+heart_curve_gentle:'A gentle curve. You have both kindness and composure.',
+heart_curve_straight:'A straight heart line. You express feelings calmly and coolly.',
+heart_len_long:'It runs long. You care for others and look after people.',heart_len_mid:'',heart_len_short:'It is short. You are easygoing and switch moods quickly.',
+fate_strong:'You have a clear fate line. You move straight toward your goals.',
+fate_weak:'A faint fate line. Your path is becoming clearer little by little.',
+fate_none:'No clear fate line. You are free to make your own path. This line can appear later.',
+sun_found:'You have a sun line. Your brightness draws people to you.',
+sun_none:'No clear sun line yet. You are a steady worker, and this line often appears over time.',
+marriage_0:'No clear marriage line. These lines are small and sometimes hard to photograph.',
+marriage_1:'One marriage line. You treasure and nurture one bond.',
+marriage_2:'Two marriage lines. You meet many people and are blessed with connections.',
+marriage_3:'Three or more marriage lines. You are friendly and loved by many.',
+notfound:'Not clearly found. Retaking in a bright place with your whole palm in view may help.'
+}};
+const LI=INFO[LANG], RD=READ[LANG];
+
+/* template (LEFT hand, palm toward camera, thumb on the left), units 1000 x 1300 */
+const LINES=[
+ {id:'life',color:'#ff5a7a',pts:[[282,772],[345,842],[390,932],[408,1032],[400,1132],[382,1210]],M:22},
+ {id:'head',color:'#3ad0ff',pts:[[290,786],[400,822],[520,860],[640,900],[745,948]],M:22},
+ {id:'heart',color:'#ff9f1c',pts:[[782,714],[700,702],[600,690],[505,670],[440,640],[420,620]],M:20},
+ {id:'fate',color:'#b18cff',pts:[[560,1215],[550,1080],[535,940],[515,800],[495,668]],M:18},
+ {id:'sun',color:'#ffe14d',pts:[[662,1010],[650,890],[637,770],[628,668]],M:14},
+ {id:'marriage',color:'#6dff9a',region:[714,612,790,692]}
+];
+const LMAP=Object.fromEntries(LINES.map(l=>[l.id,l]));
+const HAND={palm:[[292,566],[420,548],[540,540],[650,562],[748,612],[792,700],[790,860],[770,1010],[722,1150],[690,1300],[380,1300],[350,1170],[300,1060],[262,930],[250,800],[262,680]],
+ fingers:[[[352,600],[332,212],108],[[472,580],[482,142],114],[[592,598],[616,192],106],[[704,650],[762,332],92],[[292,930],[112,642],124]]};
+
+/* ---------- storage ---------- */
+const LS={get(k,d){try{const v=localStorage.getItem('plm_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},
+ set(k,v){try{localStorage.setItem('plm_'+k,JSON.stringify(v));return true}catch(e){return false}}};
+const state={gender:LS.get('gender',null),dom:LS.get('dom','right'),hand:LS.get('hand','right'),month:LS.get('month',new Date().getMonth()+1)};
+let history=LS.get('history',[]);
+let pairActive=null,pairSavedHand=null;
+function saveAll(){LS.set('gender',state.gender);LS.set('dom',state.dom);LS.set('hand',pairActive?pairSavedHand:state.hand);LS.set('month',state.month);
+ while(history.length&&!LS.set('history',history))history.pop();}
+addEventListener('pagehide',saveAll);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveAll()});
+
+/* ---------- sound ---------- */
+let AC=null,acted=false;
+function ac(){if(!acted)return null;if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){AC=null}}if(AC&&AC.state==='suspended')AC.resume().catch(()=>{});return AC}
+function tone(f,dur,type,vol,delay,f2){const a=ac();if(!a)return;const t0=a.currentTime+(delay||0);const o=a.createOscillator(),g=a.createGain();
+ o.type=type||'sine';o.frequency.setValueAtTime(f,t0);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t0+dur);
+ g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(vol||.06,t0+.008);g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+ o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+dur+.02)}
+const SFX={beep(){tone(1400,.06,'square',.035)},pon(){tone(880,.12,'sine',.08,0,1320)},
+ poko(){[0,.12,.24].forEach((d,i)=>tone(520+i*90,.08,'triangle',.06,d,700+i*90))},
+ scan(){tone(300,1.2,'sine',.03,0,1200)},fanfare(){[523,659,784,1046].forEach((f,i)=>tone(f,.18,'triangle',.07,i*.11))},
+ rin(){tone(2200,.4,'sine',.04,0,2100);tone(3300,.3,'sine',.02,.02)}};
+document.addEventListener('pointerdown',e=>{acted=true;const b=e.target.closest('button,a,label.btn,.san,#banner,[data-tap]');if(b&&!b.classList.contains('shotb'))SFX.beep();},{passive:true});/* iPhoneの「動作と方向」の確認は出さない */
+document.addEventListener('touchend',()=>{acted=true;ac()},{passive:true});/* iPhoneは指を離した時に音を許可するので、そこで音を使える状態にする */
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.id==='banner'){e.preventDefault();openBanner()}});
+
+/* ---------- helpers ---------- */
+const $=id=>document.getElementById(id);
+function toast(msg){const d=document.createElement('div');d.className='toast';d.textContent=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),2200)}
+function fmtDate(ts){const d=new Date(ts);return (d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function shiSrc(m){return 'img/shi'+String(m).padStart(2,'0')+'.jpg'}
+function talk(el){el.classList.remove('talk');void el.offsetWidth;el.classList.add('talk');SFX.poko()}
+function setBubble(main,small){const b=$('guideBubble');b.textContent=main;if(small){const s=document.createElement('small');s.textContent=small;b.appendChild(s)}talk($('guideShi'))}
+
+/* ---------- stars ---------- */
+(function stars(){const c=$('stars'),g=c.getContext('2d');let W,H,S=[];
+ function rs(){W=c.width=innerWidth;H=c.height=innerHeight;S=Array.from({length:70},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.4+.3,p:Math.random()*6}))}
+ rs();addEventListener('resize',rs);
+ const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function f(ts){g.clearRect(0,0,W,H);for(const s of S){const a=.35+.35*Math.sin(ts/900+s.p);g.fillStyle='rgba(255,240,200,'+a+')';g.beginPath();g.arc(s.x,s.y,s.r,0,7);g.fill()}if(!still)requestAnimationFrame(f)}
+ requestAnimationFrame(f)})();
+
+/* ---------- keychains (San) ---------- */
+const SAN_META={w:329,h:302,px:.0213,py:.8478,cx:.5512,cy:.5321};
+const sans=[];
+(function buildSans(){const bar=$('sanBar');const n=10;
+ const sc=0.30;const w=SAN_META.w*sc,h=SAN_META.h*sc;
+ const dx=(SAN_META.cx-SAN_META.px)*w,dy=(SAN_META.cy-SAN_META.py)*h;
+ const base=90-Math.atan2(dy,dx)*180/Math.PI;
+ const R=7.5; // string wraps around the round rod (rod radius 6)
+ const NS='http://www.w3.org/2000/svg';
+ for(let i=0;i<n;i++){const d=document.createElement('div');d.className='san';d.setAttribute('role','link');d.setAttribute('aria-label',t('sanTitle'));
+  const sw=document.createElement('div');sw.className='sw';
+  const L=(i%2)?40:14; // string length from rod center to the strap end
+  // string: over the top of the rod, following its round shape, then both strands down to the strap
+  const sv=document.createElementNS(NS,'svg');sv.setAttribute('width','24');sv.setAttribute('height',String(L+24));
+  const o=12;const path=(stroke,wd)=>{const pa=document.createElementNS(NS,'path');
+   pa.setAttribute('d',`M ${o-R} ${o} A ${R} ${R} 0 0 1 ${o+R} ${o} L ${o+1.2} ${o+L} M ${o-R} ${o} L ${o-1.2} ${o+L}`);
+   pa.setAttribute('fill','none');pa.setAttribute('stroke',stroke);pa.setAttribute('stroke-width',wd);pa.setAttribute('stroke-linecap','round');pa.setAttribute('stroke-linejoin','round');sv.appendChild(pa)};
+  path('#6b4a08',2.6);path('#f3c94a',1.4);
+  const im=document.createElement('img');im.src='img/san'+i+'.png';im.alt='';im.width=Math.round(w);im.height=Math.round(h);
+  im.style.width=w+'px';im.style.height=h+'px';im.style.left=(-SAN_META.px*w)+'px';im.style.top=(L-SAN_META.py*h)+'px';
+  im.style.transformOrigin=(SAN_META.px*w)+'px '+(SAN_META.py*h)+'px';im.style.transform='rotate('+base+'deg)';
+  const hit=document.createElement('div');hit.className='hit';
+  sw.append(im,sv,hit);d.appendChild(sw);bar.appendChild(d);
+  const s={el:d,sw,th:(Math.random()-.5)*.3,om:0,ph:Math.random()*6};sans.push(s);
+  d.addEventListener('click',()=>{s.om+=(Math.random()<.5?-1:1)*4;SFX.rin();openSan()});}
+ function layout(){const W=bar.clientWidth;sans.forEach((s,i)=>{s.el.style.left=(18+(W-36)*(i+.5)/n)+'px'})}
+ layout();addEventListener('resize',layout);
+})();
+let gAngle=0,motionAsked=false,isAndroid=/Android/i.test(navigator.userAgent),lastG=null;
+function onMotion(e){const a=e.accelerationIncludingGravity;if(!a||a.x==null)return;let gx=a.x,gy=a.y;if(isAndroid){gx=-gx;gy=-gy}
+ const so=(screen.orientation&&screen.orientation.angle)||window.orientation||0;let ang=Math.atan2(gx,-gy)-so*Math.PI/180;
+ while(ang>Math.PI)ang-=2*Math.PI;while(ang<-Math.PI)ang+=2*Math.PI;
+ if(lastG!=null){const j=ang-lastG;if(Math.abs(j)>.02)sans.forEach(s=>s.om+=j*1.5)}lastG=ang;gAngle=-ang;}
+function askMotion(){if(motionAsked)return;motionAsked=true;try{
+ if(window.DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission==='function'){DeviceMotionEvent.requestPermission().then(r=>{if(r==='granted')addEventListener('devicemotion',onMotion)}).catch(()=>{})}
+ else if(window.DeviceMotionEvent){addEventListener('devicemotion',onMotion)}}catch(e){}}
+if(window.DeviceMotionEvent&&typeof DeviceMotionEvent.requestPermission!=='function'){try{addEventListener('devicemotion',onMotion)}catch(e){}}
+(function swing(){let last=performance.now();const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function f(now){const dt=Math.min(.04,(now-last)/1000);last=now;
+  for(const s of sans){const breeze=still?0:.04*Math.sin(now/1400+s.ph);const target=gAngle+breeze;
+   const acc=-14*Math.sin(s.th-target)-1.6*s.om;s.om+=acc*dt;s.th+=s.om*dt;
+   s.sw.style.transform='rotate('+(s.th*180/Math.PI)+'deg)'}
+  requestAnimationFrame(f)}requestAnimationFrame(f)})();
+let scrollY0=scrollY;addEventListener('scroll',()=>{const d=scrollY-scrollY0;scrollY0=scrollY;if(Math.abs(d)>2)sans.forEach(s=>s.om+=Math.max(-1,Math.min(1,d*.02)))},{passive:true});
+
+/* ---------- banner ---------- */
+(function banner(){const w=$('banner'),b=$('bannerImg');
+ function run(){const W=w.clientWidth,BW=b.offsetWidth||300;const end=(W-BW)/2;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){b.style.left=end+'px';w.classList.add('stop');return}
+  b.style.left=W+'px';let t0=null;const dur=2600;
+  function f(ts){if(!t0)t0=ts;const p=Math.min(1,(ts-t0)/dur);const e=1-Math.pow(1-p,3);b.style.left=(W+(end-W)*e)+'px';
+   if(p<1)requestAnimationFrame(f);else{w.classList.add('stop')}}requestAnimationFrame(f)}
+ const im=b.querySelector('img');if(im.complete)setTimeout(run,300);else im.onload=()=>setTimeout(run,300);
+ addEventListener('resize',()=>{if(w.classList.contains('stop'))b.style.left=((w.clientWidth-b.offsetWidth)/2)+'px'});
+ w.addEventListener('click',openBanner)})();
+function modal(build){const m=$('modal'),box=$('modalBox');box.innerHTML='';build(box);
+ const ok=document.createElement('button');ok.type='button';ok.textContent=t('ok');ok.onclick=()=>{m.hidden=true};box.appendChild(ok);
+ m.hidden=false;m.onclick=e=>{if(e.target===m)m.hidden=true}}
+function openBanner(){modal(box=>{const h=document.createElement('h3');h.textContent=t('bnTitle');
+ const im=document.createElement('img');im.src='img/logo.png';im.alt='MIRATERIA';
+ const p=document.createElement('p');p.style.margin='0';p.textContent=t('bnText');
+ const ad=document.createElement('p');ad.style.margin='0';ad.style.fontWeight='800';ad.textContent='📍 '+ADDRESS[LANG];
+ const a=document.createElement('a');a.className='btn';a.href=SHOP_URL;a.target='_blank';a.rel='noopener';a.textContent=t('bnInsta');
+ box.append(h,im,p,ad,a)})}
+function openSan(){modal(box=>{const h=document.createElement('h3');h.textContent=t('sanTitle');
+ const im=document.createElement('img');im.src='img/san9.png';im.alt='';im.style.background='#4a4d57';im.style.padding='8px';
+ const p=document.createElement('p');p.style.margin='0';p.textContent=t('sanText');
+ const a=document.createElement('a');a.className='btn pink';a.href=SHOP_URL;a.target='_blank';a.rel='noopener';a.textContent=t('sanGo');
+ box.append(h,im,p,a)})}
+
+/* ---------- home screen help ---------- */
+let deferredPrompt=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});
+$('homeBtn').addEventListener('click',()=>modal(box=>{
+ const h=document.createElement('h3');h.textContent=t('homeTitle');box.appendChild(h);
+ const sec=(title,items,pre)=>{const s=document.createElement('div');const b=document.createElement('b');b.textContent=title;s.appendChild(b);
+  if(pre){const p=document.createElement('p');p.style.margin='4px 0';p.style.color='var(--gold2)';p.style.fontWeight='800';p.textContent='👉 '+pre;s.appendChild(p)}
+  const ol=document.createElement('ol');items.forEach(x=>{const li=document.createElement('li');li.textContent=x;ol.appendChild(li)});s.appendChild(ol);box.appendChild(s)};
+ sec(t('homeIos'),[t('homeIos1'),t('homeIos2'),t('homeIos3')]);
+ sec(t('homeAnd'),[t('homeAnd1'),t('homeAnd2')],t('homeAndC'));
+ if(deferredPrompt){const ib=document.createElement('button');ib.type='button';ib.className='pink';ib.textContent=t('installNow');
+  ib.onclick=()=>{deferredPrompt.prompt();deferredPrompt=null;$('modal').hidden=true};box.appendChild(ib)}
+ const n=document.createElement('p');n.className='note';n.style.margin='0';n.textContent=t('homeNote');box.appendChild(n)}));
+
+/* ---------- selectors ---------- */
+function paintSeg(){document.querySelectorAll('#genderSeg button').forEach(b=>b.classList.toggle('on',b.dataset.g===state.gender));
+ document.querySelectorAll('#domSeg button').forEach(b=>b.classList.toggle('on',b.dataset.d===state.dom));
+ document.querySelectorAll('#handSeg button').forEach(b=>b.classList.toggle('on',b.dataset.h===state.hand));
+ const a=[t('adviceDom')];if(state.gender==='m')a.push(t('adviceM'));if(state.gender==='f')a.push(t('adviceF'));
+ a.push(t('adviceNow')+(state.hand==='right'?t('rightHand'):t('leftHand'))+(state.hand===state.dom?t('adviceIsDom'):t('adviceIsOther')));
+ $('handAdvice').textContent=a.join(' ');drawLearn()}
+$('genderSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.gender=b.dataset.g;saveAll();paintSeg()});
+$('domSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.dom=b.dataset.d;saveAll();paintSeg()});
+$('handSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.hand=b.dataset.h;saveAll();paintSeg()});
+
+/* ---------- collection ---------- */
+function setMonth(m){state.month=m;saveAll();$('guideShiImg').src=shiSrc(m);$('resShiImg').src=shiSrc(m);
+ document.querySelectorAll('#coll button').forEach(b=>b.classList.toggle('on',+b.dataset.m===m))}
+(function coll(){const c=$('coll');for(let m=1;m<=12;m++){const b=document.createElement('button');b.type='button';b.dataset.m=m;
+ b.setAttribute('aria-label',(LANG==='ja'?m+'月のしーちゃん':'Shi-chan '+m));const im=document.createElement('img');im.src=shiSrc(m);im.alt='';b.appendChild(im);
+ b.onclick=()=>{setMonth(m);setBubble(LANG==='ja'?m+'月のしーちゃんだよ！':'This is my outfit for month '+m+'!');scrollTo({top:0,behavior:'smooth'})};c.appendChild(b)}})();
+
+/* ---------- geometry ---------- */
+const AW=600,AH=780,KA=AW/1000;
+const mx=(x,hand)=>hand==='left'?x:1000-x;
+function tplA(p,hand){return [mx(p[0],hand)*KA,p[1]*KA]}
+function handMask(ctx,u,hand){ctx.save();ctx.setTransform(u,0,0,u,0,0);ctx.fillStyle='#fff';ctx.strokeStyle='#fff';ctx.lineCap='round';
+ ctx.beginPath();HAND.palm.forEach((p,i)=>{const x=mx(p[0],hand);i?ctx.lineTo(x,p[1]):ctx.moveTo(x,p[1])});ctx.closePath();ctx.fill();
+ HAND.fingers.forEach(([a,b,w])=>{ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(mx(a[0],hand),a[1]);ctx.lineTo(mx(b[0],hand),b[1]);ctx.stroke()});ctx.restore()}
+const maskCache={};
+function getMask(W,H,hand){const k=W+'x'+H+hand;if(maskCache[k])return maskCache[k];const c=document.createElement('canvas');c.width=W;c.height=H;handMask(c.getContext('2d'),W/1000,hand);
+ const ring=document.createElement('canvas');ring.width=W;ring.height=H;const r=ring.getContext('2d');const k2=Math.max(2,W/220);
+ for(let a=0;a<16;a++){r.drawImage(c,Math.cos(a/16*6.283)*k2,Math.sin(a/16*6.283)*k2)}r.globalCompositeOperation='destination-out';r.drawImage(c,0,0);
+ const shade=document.createElement('canvas');shade.width=W;shade.height=H;const s=shade.getContext('2d');s.fillStyle='rgba(10,6,30,.55)';s.fillRect(0,0,W,H);s.globalCompositeOperation='destination-out';s.drawImage(c,0,0);
+ return maskCache[k]={mask:c,ring,shade}}
+function resample(pts,N){const L=[0];for(let i=1;i<pts.length;i++)L.push(L[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));
+ const out=[];const tot=L[L.length-1];let j=0;for(let i=0;i<N;i++){const d=tot*i/(N-1);while(j<L.length-2&&L[j+1]<d)j++;const f=(d-L[j])/((L[j+1]-L[j])||1);
+  out.push([pts[j][0]+(pts[j+1][0]-pts[j][0])*f,pts[j][1]+(pts[j+1][1]-pts[j][1])*f])}return out}
+
+/* ---------- learning map ---------- */
+let learnSel='life';
+function drawLearn(sel){if(sel)learnSel=sel;const c=$('learnCv'),g=c.getContext('2d');const W=c.width,H=c.height,u=W/1000;g.clearRect(0,0,W,H);
+ const m=getMask(W,H,state.hand);g.save();g.globalAlpha=1;
+ const grd=g.createLinearGradient(0,0,0,H);grd.addColorStop(0,'#ffd9b8');grd.addColorStop(1,'#f2b48e');
+ const tmp=document.createElement('canvas');tmp.width=W;tmp.height=H;const tg=tmp.getContext('2d');tg.fillStyle=grd;tg.fillRect(0,0,W,H);tg.globalCompositeOperation='destination-in';tg.drawImage(m.mask,0,0);
+ g.drawImage(tmp,0,0);g.globalAlpha=.9;g.filter='none';g.drawImage(m.ring,0,0);g.restore();
+ for(const L of LINES){const on=L.id===learnSel;g.save();g.globalAlpha=on?1:.35;g.strokeStyle=L.color;g.lineCap='round';g.lineJoin='round';g.lineWidth=(on?9:5)*u*1.6;
+  g.shadowColor=L.color;g.shadowBlur=on?18:0;
+  if(L.region){const [x1,y1,x2,y2]=L.region;for(let k=0;k<2;k++){const y=(y1+18+k*26)*u;g.beginPath();g.moveTo(mx(x1+8,state.hand)*u,y);g.lineTo(mx(x2-6,state.hand)*u,y-4*u);g.stroke()}}
+  else{g.beginPath();resample(L.pts,30).forEach((p,i)=>{const x=mx(p[0],state.hand)*u,y=p[1]*u;i?g.lineTo(x,y):g.moveTo(x,y)});g.stroke()}g.restore()}
+ const lg=$('legend');if(!lg.childElementCount){LINES.forEach(L=>{const b=document.createElement('button');b.type='button';b.dataset.id=L.id;
+  const d=document.createElement('span');d.className='dot';d.style.background=L.color;d.style.color=L.color;const s=document.createElement('span');s.textContent=LI[L.id].name;b.append(d,s);
+  b.onclick=()=>{drawLearn(L.id);SFX.pon()};lg.appendChild(b)})}
+ lg.querySelectorAll('button').forEach(b=>b.classList.toggle('sel',b.dataset.id===learnSel));
+ const lt=$('learnText');lt.innerHTML='';const b1=document.createElement('b');b1.textContent=LI[learnSel].name;const p1=document.createElement('div');p1.textContent='📍 '+LI[learnSel].where;const p2=document.createElement('div');p2.textContent='💡 '+LI[learnSel].mean;lt.append(b1,p1,p2)}
+
+/* ---------- photo + align ---------- */
+let photo=null; // canvas
+let X={tx:500,ty:650,s:1,r:0};
+function loadFile(f){if(!f)return;const url=URL.createObjectURL(f);const im=new Image();
+ im.onload=()=>{const mxs=1600;const k=Math.min(1,mxs/Math.max(im.naturalWidth,im.naturalHeight));const c=document.createElement('canvas');c.width=Math.round(im.naturalWidth*k);c.height=Math.round(im.naturalHeight*k);
+  c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(url);photo=c;autoFit();openAlign()};
+ im.onerror=()=>{URL.revokeObjectURL(url);toast(t('loadErr'))};im.src=url}
+$('camIn').addEventListener('change',e=>{endPair();loadFile(e.target.files[0]);e.target.value=''});
+$('libIn').addEventListener('change',e=>{endPair();loadFile(e.target.files[0]);e.target.value=''});
+function isSkin(r,g,b){return r>80&&g>35&&b>20&&r>g&&r>b&&(r-Math.min(g,b))>14&&Math.abs(r-g)>8}
+function autoFit(){const iw=photo.width,ih=photo.height;const sw=160,sh=Math.round(ih*sw/iw);const c=document.createElement('canvas');c.width=sw;c.height=sh;const g=c.getContext('2d');g.drawImage(photo,0,0,sw,sh);
+ const d=g.getImageData(0,0,sw,sh).data;const xs=[],ys=[];for(let y=0;y<sh;y++)for(let x=0;x<sw;x++){const i=(y*sw+x)*4;if(isSkin(d[i],d[i+1],d[i+2])){xs.push(x);ys.push(y)}}
+ let cx=iw/2,cy=ih/2,bw=iw,bh=ih;
+ if(xs.length>sw*sh*.04){xs.sort((a,b)=>a-b);ys.sort((a,b)=>a-b);const q=(a,p)=>a[Math.floor(a.length*p)];const k=iw/sw;
+  const x1=q(xs,.02)*k,x2=q(xs,.98)*k,y1=q(ys,.02)*k,y2=q(ys,.98)*k;bw=x2-x1;bh=y2-y1;cx=(x1+x2)/2;cy=(y1+y2)/2}
+ const s=Math.min(1180/bh,740/bw);const tcx=state.hand==='left'?445:555;X={tx:tcx-(cx-iw/2)*s,ty:690-(cy-ih/2)*s,s,r:0}}
+function drawPhoto(g,u){g.save();g.setTransform(u,0,0,u,0,0);g.translate(X.tx,X.ty);g.rotate(X.r);g.scale(X.s,X.s);g.imageSmoothingQuality='high';g.drawImage(photo,-photo.width/2,-photo.height/2);g.restore()}
+function sizeCv(c){const r=c.getBoundingClientRect();const dpr=Math.min(2,devicePixelRatio||1);const W=Math.round((r.width||360)*dpr);c.width=W;c.height=Math.round(W*1.3);return W/1000}
+let alignU=1;
+function drawAlign(){const c=$('alignCv'),g=c.getContext('2d');g.setTransform(1,0,0,1,0,0);g.fillStyle='#000';g.fillRect(0,0,c.width,c.height);drawPhoto(g,alignU);
+ const m=getMask(c.width,c.height,state.hand);g.drawImage(m.shade,0,0);g.save();g.shadowColor='rgba(0,0,0,.8)';g.shadowBlur=6;g.drawImage(m.ring,0,0);g.restore();
+ // faint line hints inside the outline
+ g.save();g.globalAlpha=.35;g.setLineDash([6,8]);g.lineWidth=2;LINES.forEach(L=>{if(L.region)return;g.strokeStyle=L.color;g.beginPath();L.pts.forEach((p,i)=>{const x=mx(p[0],state.hand)*alignU,y=p[1]*alignU;i?g.lineTo(x,y):g.moveTo(x,y)});g.stroke()});g.restore()}
+function openAlign(){$('alignScr').hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(()=>{alignU=sizeCv($('alignCv'));drawAlign()});
+ setBubble(t('alignTalk'))}
+function closeScreens(){['alignScr','scanScr','resScr','pairMidScr','pairScr'].forEach(id=>$(id).hidden=true);document.body.style.overflow='';endPair()}
+$('alignClose').onclick=closeScreens;
+(function gestures(){const c=$('alignCv');const P=new Map();let g0=null;
+ const toT=(e)=>{const r=c.getBoundingClientRect();return [(e.clientX-r.left)/r.width*1000,(e.clientY-r.top)/r.height*1300]};
+ function snap(){const pts=[...P.values()];if(pts.length===1)g0={m:pts[0],T:{...X}};else if(pts.length>=2){const [a,b]=pts;g0={m:[(a[0]+b[0])/2,(a[1]+b[1])/2],d:Math.hypot(b[0]-a[0],b[1]-a[1]),a:Math.atan2(b[1]-a[1],b[0]-a[0]),T:{...X}}}}
+ c.addEventListener('pointerdown',e=>{c.setPointerCapture(e.pointerId);P.set(e.pointerId,toT(e));snap()});
+ c.addEventListener('pointermove',e=>{if(!P.has(e.pointerId)||!g0)return;P.set(e.pointerId,toT(e));const pts=[...P.values()];
+  if(pts.length===1){X.tx=g0.T.tx+pts[0][0]-g0.m[0];X.ty=g0.T.ty+pts[0][1]-g0.m[1]}
+  else{const [a,b]=pts;const m=[(a[0]+b[0])/2,(a[1]+b[1])/2];const ds=Math.hypot(b[0]-a[0],b[1]-a[1])/(g0.d||1);const da=Math.atan2(b[1]-a[1],b[0]-a[0])-g0.a;
+   const vx=g0.T.tx-g0.m[0],vy=g0.T.ty-g0.m[1];const cs=Math.cos(da)*ds,sn=Math.sin(da)*ds;X.tx=m[0]+vx*cs-vy*sn;X.ty=m[1]+vx*sn+vy*cs;X.s=g0.T.s*ds;X.r=g0.T.r+da}
+  drawAlign()});
+ const up=e=>{P.delete(e.pointerId);snap()};c.addEventListener('pointerup',up);c.addEventListener('pointercancel',up);
+ c.addEventListener('wheel',e=>{e.preventDefault();zoomAt(e.deltaY<0?1.05:1/1.05)},{passive:false})})();
+function zoomAt(k,cx=500,cy=650){X.tx=cx+(X.tx-cx)*k;X.ty=cy+(X.ty-cy)*k;X.s*=k;drawAlign()}
+function rotAt(da,cx=500,cy=650){const vx=X.tx-cx,vy=X.ty-cy,c=Math.cos(da),s=Math.sin(da);X.tx=cx+vx*c-vy*s;X.ty=cy+vx*s+vy*c;X.r+=da;drawAlign()}
+$('tZoomIn').onclick=()=>zoomAt(1.08);$('tZoomOut').onclick=()=>zoomAt(1/1.08);$('tRotL').onclick=()=>rotAt(-.05);$('tRotR').onclick=()=>rotAt(.05);$('tAuto').onclick=()=>{autoFit();drawAlign()};
+addEventListener('resize',()=>{if(!$('alignScr').hidden){alignU=sizeCv($('alignCv'));drawAlign()}});
+
+/* ---------- image analysis ---------- */
+function boxBlur(src,W,H,r){const tmp=new Float32Array(W*H),out=new Float32Array(W*H);const n=2*r+1;
+ for(let y=0;y<H;y++){let s=0;const o=y*W;for(let x=-r;x<=r;x++)s+=src[o+Math.min(W-1,Math.max(0,x))];
+  for(let x=0;x<W;x++){tmp[o+x]=s/n;s+=src[o+Math.min(W-1,x+r+1)]-src[o+Math.max(0,x-r)]}}
+ for(let x=0;x<W;x++){let s=0;for(let y=-r;y<=r;y++)s+=tmp[Math.min(H-1,Math.max(0,y))*W+x];
+  for(let y=0;y<H;y++){out[y*W+x]=s/n;s+=tmp[Math.min(H-1,y+r+1)*W+x]-tmp[Math.max(0,y-r)*W+x]}}return out}
+function blur3(a,W,H,r){return boxBlur(boxBlur(boxBlur(a,W,H,r),W,H,r),W,H,r)}
+function buildRidge(){const c=document.createElement('canvas');c.width=AW;c.height=AH;const g=c.getContext('2d',{willReadFrequently:true});
+ g.fillStyle='#000';g.fillRect(0,0,AW,AH);drawPhoto(g,KA);const img=g.getImageData(0,0,AW,AH);const d=img.data;const N=AW*AH;
+ const L=new Float32Array(N),sk=new Float32Array(N);
+ for(let i=0;i<N;i++){const r=d[i*4],gg=d[i*4+1],b=d[i*4+2];L[i]=.3*r+.59*gg+.11*b;sk[i]=isSkin(r,gg,b)?1:0}
+ // limit to template hand area (slightly grown) so background never counts
+ const mk=getMask(AW,AH,state.hand).mask.getContext('2d').getImageData(0,0,AW,AH).data;
+ let skinCount=0;for(let i=0;i<N;i++){if(mk[i*4+3]<10)sk[i]=0;skinCount+=sk[i]}
+ const skinOK=skinCount>N*.15;
+ if(!skinOK){for(let i=0;i<N;i++)sk[i]=mk[i*4+3]>10?1:0}
+ const skB=boxBlur(boxBlur(sk,AW,AH,6),AW,AH,6);const inner=new Uint8Array(N);for(let i=0;i<N;i++)inner[i]=skB[i]>.93?1:0;
+ // fill tiny holes: lines inside skin may fail the skin test — use blurred mask instead
+ const sm=blur3(L,AW,AH,1),bg=blur3(L,AW,AH,6);const R=new Float32Array(N);
+ const vals=[];for(let i=0;i<N;i++){if(!inner[i])continue;const v=Math.max(0,bg[i]-sm[i])/(bg[i]*.05+4);R[i]=v;if((i&7)===0)vals.push(v)}
+ vals.sort((a,b)=>a-b);const p95=vals.length?vals[Math.floor(vals.length*.95)]||1:1;const p50=vals.length?vals[Math.floor(vals.length*.5)]:0;
+ for(let i=0;i<N;i++)R[i]=inner[i]?Math.min(1.5,R[i]/(p95||1)):0;
+ return {R,inner,base:p50/(p95||1),skinOK,canvas:c}}
+function sampleR(R,x,y){if(x<0||y<0||x>=AW-1||y>=AH-1)return 0;const x0=x|0,y0=y|0,fx=x-x0,fy=y-y0,i=y0*AW+x0;
+ return R[i]*(1-fx)*(1-fy)+R[i+1]*fx*(1-fy)+R[i+AW]*(1-fx)*fy+R[i+AW+1]*fx*fy}
+function traceLine(A,L,hand){const N=56,step=2,M=L.M;const P=resample(L.pts.map(p=>tplA(p,hand)),N);
+ const ctr=tplA([520,900],hand);const tn=[],nn=[];
+ for(let i=0;i<N;i++){const a=P[Math.max(0,i-1)],b=P[Math.min(N-1,i+1)];let tx=b[0]-a[0],ty=b[1]-a[1];const l=Math.hypot(tx,ty)||1;tx/=l;ty/=l;let nx=-ty,ny=tx;
+  if(nx*(ctr[0]-P[i][0])+ny*(ctr[1]-P[i][1])<0){nx=-nx;ny=-ny}tn.push([tx,ty]);nn.push([nx,ny])}
+ const J=2*M+1;const sc=new Float32Array(N*J);
+ for(let i=0;i<N;i++)for(let j=0;j<J;j++){const o=(j-M)*step;const x=P[i][0]+nn[i][0]*o,y=P[i][1]+nn[i][1]*o;let s=0;
+  for(let k=-1;k<=1;k++)s+=sampleR(A.R,x+tn[i][0]*k*2,y+tn[i][1]*k*2);sc[i*J+j]=s/3-.004*Math.abs(j-M)}
+ const dp=new Float32Array(N*J),bk=new Int8Array(N*J);for(let j=0;j<J;j++)dp[j]=sc[j];
+ for(let i=1;i<N;i++)for(let j=0;j<J;j++){let best=-1e9,bj=0;for(let dj=-2;dj<=2;dj++){const jj=j+dj;if(jj<0||jj>=J)continue;const v=dp[(i-1)*J+jj]-.07*Math.abs(dj);if(v>best){best=v;bj=dj}}
+  dp[i*J+j]=best+sc[i*J+j];bk[i*J+j]=bj}
+ let j=0,bv=-1e9;for(let k=0;k<J;k++)if(dp[(N-1)*J+k]>bv){bv=dp[(N-1)*J+k];j=k}
+ const path=new Array(N),js=new Array(N);for(let i=N-1;i>=0;i--){js[i]=j;const o=(j-M)*step;path[i]=[P[i][0]+nn[i][0]*o,P[i][1]+nn[i][1]*o];j=j+bk[i*J+j]}
+ const raw=path.map(p=>sampleR(A.R,p[0],p[1]));const v=raw.map((x,i)=>(raw[Math.max(0,i-1)]+x+raw[Math.min(N-1,i+1)])/3);
+ const TH=Math.max(.3,A.base*2.2);let best=[0,-1],cur=null,gap=0;
+ for(let i=0;i<N;i++){if(v[i]>=TH){if(!cur)cur=[i,i];cur[1]=i;gap=0}else if(cur){gap++;if(gap>3){if(cur[1]-cur[0]>best[1]-best[0])best=cur;cur=null;gap=0}}}
+ if(cur&&cur[1]-cur[0]>best[1]-best[0])best=cur;
+ const [a,b]=best;const cov=b>=a?(b-a+1)/N:0;let mean=0,off=0;for(let i=a;i<=b;i++){mean+=v[i];off+=(js[i]-M)*step}const n=Math.max(1,b-a+1);mean/=n;off/=n;
+ return {path,a,b,cov,mean,off,N}}
+function traceMarriage(A,hand,heart){const [x1,y1,x2,y2]=LMAP.marriage.region;const ax1=Math.min(mx(x1,hand),mx(x2,hand))*KA,ax2=Math.max(mx(x1,hand),mx(x2,hand))*KA;
+ let ay1=y1*KA,ay2=y2*KA;if(heart&&heart.found){const hs=heart.path[heart.a];ay2=Math.min(ay2,hs[1]-7)}
+ const prof=[];for(let y=Math.round(ay1);y<=Math.round(ay2);y++){let s=0,n=0;for(let x=Math.round(ax1);x<=Math.round(ax2);x++){if(A.inner[y*AW+x]){s+=A.R[y*AW+x];n++}}prof.push(n>8?s/n:0)}
+ const sm=prof.map((x,i)=>(prof[Math.max(0,i-1)]+x+prof[Math.min(prof.length-1,i+1)])/3);const TH=Math.max(.38,A.base*2.4);const peaks=[];
+ for(let i=1;i<sm.length-1;i++){if(sm[i]>=TH&&sm[i]>=sm[i-1]&&sm[i]>=sm[i+1]){if(peaks.length&&i-peaks[peaks.length-1]<7){if(sm[i]>sm[peaks[peaks.length-1]])peaks[peaks.length-1]=i}else peaks.push(i)}}
+ const segs=peaks.slice(0,3).map(pi=>{const y0=ay1+pi;const pts=[];for(let x=Math.round(ax1+4);x<=Math.round(ax2-4);x+=4){let by=y0,bv=-1;for(let dy=-3;dy<=3;dy++){const v=sampleR(A.R,x,y0+dy);if(v>bv){bv=v;by=y0+dy}}pts.push([x,by])}return pts});
+ return {segs,count:Math.min(3,peaks.length),found:peaks.length>0}}
+function analyze(){const A=buildRidge();const hand=state.hand;const res={};
+ for(const L of LINES){if(L.region)continue;const r=traceLine(A,L,hand);const minor=(L.id==='fate'||L.id==='sun');
+  r.found=minor?(r.cov>=.32&&r.mean>=.5):(r.cov>=.25&&r.mean>=.42);res[L.id]=r}
+ res.marriage=traceMarriage(A,hand,res.heart);return {A,res}}
+function cat(res,hand){const c={};const L=res.life,H=res.head,E=res.heart;
+ if(L.found){c.life={len:L.cov>=.78?'long':L.cov>=.5?'mid':'short',str:L.mean>=.8?'strong':L.mean>=.56?'mid':'soft',arc:L.off>8?'wide':L.off<-8?'narrow':'normal'}}
+ if(H.found){const s=H.path[H.a],e=H.path[H.b];const dx=Math.abs(e[0]-s[0])||1;const sl=(e[1]-s[1])/dx;
+  const join=L.found?(Math.hypot(H.path[H.a][0]-L.path[L.a][0],H.path[H.a][1]-L.path[L.a][1])<16&&H.a<8&&L.a<8?'joined':'separate'):null;
+  c.head={slope:sl>.42?'down':sl<.2?'straight':'balance',len:H.cov>=.75?'long':H.cov>=.5?'mid':'short',str:H.mean>=.8?'strong':H.mean>=.56?'mid':'soft',join}}
+ if(E.found){const s=E.path[E.a],e=E.path[E.b];const rise=(s[1]-e[1])/KA;c.heart={curve:rise>105?'up':rise<55?'straight':'gentle',len:E.cov>=.75?'long':E.cov>=.5?'mid':'short',str:E.mean>=.8?'strong':E.mean>=.56?'mid':'soft'}}
+ c.fate=res.fate.found?(res.fate.mean>=.75?'strong':'weak'):'none';c.sun=res.sun.found?'found':'none';c.marriage=res.marriage.count;return c}
+
+/* ---------- scan flow ---------- */
+const ORDER=['life','head','heart','fate','sun','marriage'];
+let scanU=1;
+$('goScan').onclick=startScan;
+function startScan(){$('alignScr').hidden=true;$('scanScr').hidden=false;const c=$('scanCv');scanU=sizeCv(c);SFX.scan();
+ const st=$('scanStatus');st.innerHTML='';const rows={};
+ const mkRow=(id,label,color)=>{const d=document.createElement('div');d.className='st';const dot=document.createElement('span');dot.className='dot';dot.style.background=color;dot.style.color=color;
+  const s=document.createElement('span');s.textContent=label;const mk=document.createElement('span');mk.className='mk';d.append(dot,s,mk);st.appendChild(d);rows[id]={d,mk}};
+ ORDER.forEach(id=>mkRow(id,LI[id].name,LMAP[id].color));
+ let out=null,err=null;setTimeout(()=>{try{out=analyze()}catch(e){err=e}},60);
+ const g=c.getContext('2d');let t0=performance.now();const shown=[];let step=0;const prog=$('prog');prog.style.width='0';
+ const m=getMask(c.width,c.height,state.hand);
+ function frame(now){const el=(now-t0)/1000;g.setTransform(1,0,0,1,0,0);g.fillStyle='#000';g.fillRect(0,0,c.width,c.height);drawPhoto(g,scanU);g.drawImage(m.shade,0,0);
+  g.drawImage(m.ring,0,0);
+  // grid
+  g.save();g.globalAlpha=.18;g.strokeStyle='#7fe8ff';g.lineWidth=1;const gs=c.width/20;for(let x=0;x<c.width;x+=gs){g.beginPath();g.moveTo(x,0);g.lineTo(x,c.height);g.stroke()}for(let y=0;y<c.height;y+=gs){g.beginPath();g.moveTo(0,y);g.lineTo(c.width,y);g.stroke()}g.restore();
+  // sweep
+  const sy=((Math.sin(el*2.2-1.57)+1)/2)*c.height;const gr=g.createLinearGradient(0,sy-60,0,sy+8);gr.addColorStop(0,'rgba(80,220,255,0)');gr.addColorStop(1,'rgba(120,240,255,.55)');g.fillStyle=gr;g.fillRect(0,sy-60,c.width,68);
+  g.fillStyle='#bff6ff';g.fillRect(0,sy,c.width,3);
+  if(out){const k=c.width/AW;shown.forEach(id=>drawLineOn(g,id,out.res,k,1,now))}
+  if(out&&el>1.6&&step<ORDER.length&&el>1.6+step*.65){const id=ORDER[step];shown.push(id);const r=out.res[id];
+   rows[id].d.classList.add('done');rows[id].mk.textContent=r.found?('✅ '+t('found')+(id==='marriage'?' '+r.count+t('lines'):'')):('・'+t('notFound'));if(r.found)SFX.pon();step++;prog.style.width=(step/ORDER.length*100)+'%'}
+  if(err){closeScreens();toast(t('loadErr'));return}
+  if(out&&step>=ORDER.length&&el>1.6+ORDER.length*.65+.5){finish(out);return}
+  requestAnimationFrame(frame)}
+ requestAnimationFrame(frame);setBubble(t('scanTalk'))}
+function segPts(r){return r.path.slice(r.a,r.b+1)}
+function drawLineOn(g,id,res,k,alpha,now,bold){const r=res[id];if(!r||!r.found)return;const col=LMAP[id].color;g.save();g.globalAlpha=alpha;g.strokeStyle=col;g.lineCap='round';g.lineJoin='round';
+ g.shadowColor=col;g.shadowBlur=(bold?16:10)*k*1.5;g.lineWidth=(bold?7:4.5)*k*1.4;
+ const lines=id==='marriage'?r.segs:[r.seg||segPts(r)];
+ for(const pts of lines){if(!pts||pts.length<2)continue;g.beginPath();pts.forEach((p,i)=>{i?g.lineTo(p[0]*k,p[1]*k):g.moveTo(p[0]*k,p[1]*k)});g.stroke()}
+ if(bold&&now){const pts=lines[0];if(pts&&pts.length>1){const f=(now/1600)%1;const i=Math.min(pts.length-1,Math.floor(f*pts.length));g.shadowBlur=20;g.fillStyle='#fff';g.beginPath();g.arc(pts[i][0]*k,pts[i][1]*k,6*k*1.4,0,7);g.fill()}
+  // start marker ring
+  const s=pts&&pts[0];if(s){g.lineWidth=2.5*k*1.4;g.strokeStyle='#fff';g.beginPath();g.arc(s[0]*k,s[1]*k,(10+3*Math.sin(now/200))*k*1.4,0,7);g.stroke()}}
+ g.restore()}
+function finish(out){const res=out.res;const thumb=document.createElement('canvas');thumb.width=450;thumb.height=585;thumb.getContext('2d').drawImage(out.A.canvas,0,0,450,585);
+ const lines={};for(const id of ORDER){const r=res[id];if(id==='marriage'){lines[id]={found:r.found,count:r.count,segs:r.segs.map(s=>s.map(p=>[Math.round(p[0]),Math.round(p[1])]))};continue}
+  lines[id]={found:r.found,seg:r.found?segPts(r).map(p=>[Math.round(p[0]),Math.round(p[1])]):[]}}
+ const rec={id:Date.now(),date:Date.now(),hand:state.hand,dom:state.dom,gender:state.gender,img:thumb.toDataURL('image/jpeg',.72),lines,cats:cat(res,state.hand)};
+ if(pairActive){pairDone(rec);return}
+ history.unshift(rec);history=history.slice(0,8);saveAll();renderHist();SFX.fanfare();showResult(rec)}
+
+/* ---------- result ---------- */
+let curRec=null,selLine=null,resImg=null,resRAF=0;
+function chip(txt,no){const s=document.createElement('span');s.className='chip'+(no?' no':'');s.textContent=txt;return s}
+function readingFor(id,c){const x=c[id];const out=[];const chips=[];
+ if(id==='life'||id==='head'||id==='heart'){if(!x)return {chips:[[t('noneChip'),1]],text:RD.notfound};
+  chips.push([t('len')+'：'+t('len_'+x.len)]);chips.push([t('str')+'：'+t('str_'+x.str)]);
+  if(id==='life'){chips.push([t('shape')+'：'+t('arc_'+x.arc)]);out.push(RD['life_len_'+x.len],RD['life_arc_'+x.arc],RD['life_str_'+x.str])}
+  if(id==='head'){chips.push([t('shape')+'：'+t('slope_'+x.slope)]);if(x.join)chips.push([t('join_'+x.join)]);out.push(RD['head_slope_'+x.slope],RD['head_len_'+x.len],x.join?RD['head_join_'+x.join]:'')}
+  if(id==='heart'){chips.push([t('shape')+'：'+t('curve_'+x.curve)]);out.push(RD['heart_curve_'+x.curve],RD['heart_len_'+x.len])}}
+ if(id==='fate'){chips.push(x==='none'?[t('noneChip'),1]:[t('foundChip')+'（'+t('str_'+(x==='strong'?'strong':'soft'))+'）']);out.push(RD['fate_'+x])}
+ if(id==='sun'){chips.push(x==='none'?[t('noneChip'),1]:[t('foundChip')]);out.push(RD['sun_'+x])}
+ if(id==='marriage'){chips.push(x?[t('count')+'：'+x+t('lines')]:[t('noneChip'),1]);out.push(RD['marriage_'+Math.min(3,x)])}
+ return {chips,text:out.filter(Boolean).join(LANG==='ja'?'':' ')}}
+function showResult(rec){curRec=rec;selLine=null;$('scanScr').hidden=true;$('alignScr').hidden=true;$('resScr').hidden=false;document.body.style.overflow='hidden';$('resScr').scrollTop=0;
+ const c=rec.cats;const a=c.head?c.head.slope:'x',b=c.heart?c.heart.curve:'x',cc=c.life?c.life.arc:'x';
+ const bub=$('resBubble');bub.textContent=t('sumTpl').replace('{a}',t('sumA_'+a)).replace('{b}',t('sumB_'+b)).replace('{c}',t('sumC_'+cc));
+ const sm=document.createElement('small');sm.textContent=(!c.life||!c.head||!c.heart)?t('retakeHint'):t('sumSmall');bub.appendChild(sm);talk($('resShi'));
+ const hn=(rec.hand==='right'?t('rightHand'):t('leftHand'))+(rec.hand===rec.dom?t('adviceIsDom'):t('adviceIsOther'));$('resHandNote').textContent=t('adviceNow')+hn;
+ const box=$('resCards');box.innerHTML='';
+ ORDER.forEach(id=>{const info=LI[id];const rd=readingFor(id,c);const d=document.createElement('div');d.className='lineCard';d.dataset.id=id;d.setAttribute('role','button');d.tabIndex=0;
+  const h=document.createElement('h3');const dot=document.createElement('span');dot.className='dot';dot.style.background=LMAP[id].color;dot.style.color=LMAP[id].color;const nm=document.createElement('span');nm.textContent=info.name;h.append(dot,nm);
+  const w=document.createElement('div');w.className='where';const wb=document.createElement('b');wb.textContent=(LANG==='ja'?'場所：':'Where: ');w.append(wb,document.createTextNode(info.where));
+  const mn=document.createElement('p');mn.className='note';mn.textContent='💡 '+info.mean;
+  const ch=document.createElement('div');ch.className='chips';rd.chips.forEach(([x,no])=>ch.appendChild(chip(x,no)));
+  const p=document.createElement('p');p.textContent='🔮 '+rd.text;
+  d.append(h,w,mn,ch,p);d.addEventListener('click',()=>{selLine=selLine===id?null:id;box.querySelectorAll('.lineCard').forEach(x=>x.classList.toggle('sel',x.dataset.id===selLine));
+   SFX.pon();$('resCv').scrollIntoView({behavior:'smooth',block:'center'})});
+  d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();d.click()}});box.appendChild(d)});
+ resImg=new Image();resImg.onload=()=>{cancelAnimationFrame(resRAF);const cv=$('resCv');sizeCv(cv);resLoop()};resImg.src=rec.img}
+function resLoop(){const cv=$('resCv');if($('resScr').hidden)return;const g=cv.getContext('2d');const now=performance.now();g.setTransform(1,0,0,1,0,0);g.drawImage(resImg,0,0,cv.width,cv.height);
+ g.fillStyle='rgba(10,6,30,.28)';g.fillRect(0,0,cv.width,cv.height);const k=cv.width/AW;const res=curRec.lines;
+ ORDER.forEach(id=>{if(selLine&&id===selLine)return;drawLineOn(g,id,res,k,selLine?.22:1,now,false)});
+ if(selLine){const L=res[selLine];if(L&&L.found)drawLineOn(g,selLine,res,k,1,now,true);else drawGhost(g,selLine,k,now)}
+ resRAF=requestAnimationFrame(resLoop)}
+function drawGhost(g,id,k,now){const L=LMAP[id];const hand=curRec.hand;g.save();g.setLineDash([8*k,10*k]);g.lineDashOffset=-now/40;g.strokeStyle=L.color;g.globalAlpha=.85;g.lineWidth=4*k*1.4;g.lineCap='round';
+ if(L.region){const [x1,y1,x2,y2]=L.region;g.strokeRect(Math.min(mx(x1,hand),mx(x2,hand))*KA*k,y1*KA*k,Math.abs(x2-x1)*KA*k,(y2-y1)*KA*k)}
+ else{g.beginPath();L.pts.forEach((p,i)=>{const a=tplA(p,hand);i?g.lineTo(a[0]*k,a[1]*k):g.moveTo(a[0]*k,a[1]*k)});g.stroke()}g.restore()}
+function linePolys(id){const L=curRec.lines[id];const hand=curRec.hand;const T=LMAP[id];
+ if(L&&L.found){return id==='marriage'?L.segs:[L.seg]}
+ if(T.region){const [x1,y1,x2,y2]=T.region;const a=Math.min(mx(x1,hand),mx(x2,hand))*KA,b=Math.max(mx(x1,hand),mx(x2,hand))*KA,c=y1*KA,d=y2*KA;return [[[a,c],[b,c],[b,d],[a,d],[a,c]]]}
+ return [T.pts.map(p=>tplA(p,hand))]}
+function distSeg(px,py,a,b){const dx=b[0]-a[0],dy=b[1]-a[1];const l=dx*dx+dy*dy||1;let u=((px-a[0])*dx+(py-a[1])*dy)/l;u=Math.max(0,Math.min(1,u));return Math.hypot(px-a[0]-u*dx,py-a[1]-u*dy)}
+$('resCv').addEventListener('click',e=>{if(!curRec)return;const cv=$('resCv');const r=cv.getBoundingClientRect();const px=(e.clientX-r.left)/r.width*AW,py=(e.clientY-r.top)/r.height*AH;
+ let best=null,bd=1e9;ORDER.forEach(id=>{const found=curRec.lines[id]&&curRec.lines[id].found;linePolys(id).forEach(pts=>{if(!pts||pts.length<2)return;for(let i=1;i<pts.length;i++){let d=distSeg(px,py,pts[i-1],pts[i]);if(!found)d+=8;if(d<bd){bd=d;best=id}}})});
+ if(!best||bd>AW*.07){toast(t('tapMiss'));return}
+ selLine=best;const box=$('resCards');let card=null;box.querySelectorAll('.lineCard').forEach(x=>{const on=x.dataset.id===best;x.classList.toggle('sel',on);x.classList.remove('flash');if(on)card=x});
+ SFX.beep();if(card){void card.offsetWidth;card.classList.add('flash');card.scrollIntoView({behavior:'smooth',block:'center'})}});
+$('resClose').onclick=()=>{closeScreens();cancelAnimationFrame(resRAF);setBubble(t('hello'))};
+$('again').onclick=()=>{closeScreens();cancelAnimationFrame(resRAF);$('camIn').click()};
+
+/* ---------- pair (compatibility) ---------- */
+const pairSet=LS.get('pairSet',{A:{g:null,h:'right'},B:{g:null,h:'right'}});
+let pairWip=LS.get('pairWip',null),pairHist=LS.get('pairHist',[]),pairAnim=0;
+function savePair(){LS.set('pairSet',pairSet);LS.set('pairWip',pairWip);while(pairHist.length&&!LS.set('pairHist',pairHist))pairHist.pop()}
+addEventListener('pagehide',savePair);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')savePair()});
+function endPair(){if(pairActive){state.hand=pairSavedHand;pairActive=null;pairSavedHand=null}$('alignScr').querySelector('h2').textContent=t('alignTitle')}
+function buildPairUI(){['A','B'].forEach(s=>{const box=$('pp'+s);box.innerHTML='';
+ const lb=document.createElement('div');lb.className='lbl';lb.textContent=t('person'+s);box.appendChild(lb);
+ const seg=(items,key)=>{const d=document.createElement('div');d.className='seg';d.dataset.k=key;items.forEach(([v,label])=>{const b=document.createElement('button');b.type='button';b.className='sec';b.textContent=t(label);b.dataset.v=v;
+  b.onclick=()=>{pairSet[s][key]=v;savePair();paintPair()};d.appendChild(b)});box.appendChild(d)};
+ seg([['m','male'],['f','female'],['n','noAns']],'g');seg([['right','rightHand'],['left','leftHand']],'h');
+ const st=document.createElement('div');st.className='ppStat';st.id='ppStat'+s;box.appendChild(st)})}
+function paintPair(){['A','B'].forEach(s=>$('pp'+s).querySelectorAll('.seg').forEach(d=>{const k=d.dataset.k;d.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===pairSet[s][k]))}));
+ const done=!!(pairWip&&pairWip.A);$('ppStatA').textContent=done?'✅ '+t('pairShot'):'';$('pairGo').textContent=done?t('pairTakeB'):t('pairTakeA');$('pairReset').hidden=!done}
+function pairPick(f){if(!f)return;const slot=(pairWip&&pairWip.A)?'B':'A';endPair();pairActive=slot;pairSavedHand=state.hand;state.hand=pairSet[slot].h;
+ $('pairMidScr').hidden=true;loadFile(f);$('alignScr').querySelector('h2').textContent=t('pairAlign'+slot)}
+$('pairCamIn').addEventListener('change',e=>{pairPick(e.target.files[0]);e.target.value=''});
+$('pairLibIn').addEventListener('change',e=>{pairPick(e.target.files[0]);e.target.value=''});
+$('pairReset').onclick=()=>{pairWip=null;savePair();paintPair();toast(t('pairResetDone'))};
+function pairDone(rec){const slot=pairActive;rec.gender=pairSet[slot].g;endPair();$('scanScr').hidden=true;$('alignScr').hidden=true;
+ if(slot==='A'||!(pairWip&&pairWip.A)){pairWip={A:rec};savePair();paintPair();SFX.fanfare();openMid();return}
+ const item={id:Date.now(),date:Date.now(),A:pairWip.A,B:rec};pairHist.unshift(item);pairHist=pairHist.slice(0,5);pairWip=null;savePair();paintPair();renderPairHist();showPair(item)}
+function drawRec(cv,rec){sizeCv(cv);const im=new Image();im.onload=()=>{const g=cv.getContext('2d');g.setTransform(1,0,0,1,0,0);g.drawImage(im,0,0,cv.width,cv.height);
+ g.fillStyle='rgba(10,6,30,.25)';g.fillRect(0,0,cv.width,cv.height);const k=cv.width/AW;ORDER.forEach(id=>drawLineOn(g,id,rec.lines,k,1,0,false))};im.src=rec.img}
+function openMid(){$('pairMidScr').hidden=false;document.body.style.overflow='hidden';$('pairMidScr').scrollTop=0;$('midShiImg').src=shiSrc(state.month);talk($('midShi'));
+ requestAnimationFrame(()=>drawRec($('midCv'),pairWip.A))}
+$('midStop').onclick=()=>{closeScreens();$('pairCard').scrollIntoView({behavior:'smooth',block:'start'})};
+const PCM={heart:{icon:'💗',col:'heart'},head:{icon:'🧠',col:'head'},life:{icon:'🌱',col:'life'},goal:{icon:'⭐',col:'fate'},marriage:{icon:'💍',col:'marriage'}};
+const CM={heart:{f:'curve',o:['up','gentle','straight'],s:{up_up:92,up_gentle:85,up_straight:20,gentle_gentle:95,gentle_straight:60,straight_straight:45}},
+ head:{f:'slope',o:['down','balance','straight'],s:{down_down:40,down_balance:88,down_straight:55,balance_balance:85,balance_straight:70,straight_straight:35}},
+ life:{f:'arc',o:['wide','normal','narrow'],s:{wide_wide:85,wide_normal:70,wide_narrow:20,normal_normal:90,normal_narrow:65,narrow_narrow:80}}};
+const GOAL={both:85,one:65,none:30,sun:5},MAR={same:90,both:70,one:35,none:20},MISS=50,BONUS_MAX=7.5;
+const PW={heart:.3,head:.2,life:.2,goal:.15,marriage:.15};
+// lowest / highest possible score of each part, so the total can reach 0% and 100%
+const PR=(()=>{const r={};['heart','head','life'].forEach(id=>{const v=Object.values(CM[id].s);r[id]=[Math.min(...v),Math.max(...v)]});
+ r.goal=[GOAL.none,Math.min(100,GOAL.both+GOAL.sun*2)];r.marriage=[MAR.none,MAR.same];
+ let lo=0,hi=BONUS_MAX;for(const k in PW){lo+=r[k][0]*PW[k];hi+=r[k][1]*PW[k]}r.lo=lo;r.hi=hi;return r})();
+function compat(A,B){const a=A.cats||{},b=B.cats||{};const out=[];let bonus=0;
+ ['heart','head','life'].forEach(id=>{const x=a[id],y=b[id];let sc=MISS,txt=t('pc_missing');const m=CM[id];
+  if(x&&y&&x[m.f]&&y[m.f]){const k=[x[m.f],y[m.f]].sort((p,q)=>m.o.indexOf(p)-m.o.indexOf(q)).join('_');if(m.s[k]!=null){sc=m.s[k];txt=t('pc_'+id+'_'+k)}
+   if(x.str===y.str)bonus+=1.5;if(x.len===y.len)bonus+=1}
+  out.push({id,sc,txt})});
+ const fa=!!a.fate&&a.fate!=='none',fb=!!b.fate&&b.fate!=='none';let gs=fa&&fb?GOAL.both:(fa||fb)?GOAL.one:GOAL.none;let gt=t(fa&&fb?'pc_goal_both':(fa||fb)?'pc_goal_one':'pc_goal_none');
+ const sn=(a.sun==='found'?1:0)+(b.sun==='found'?1:0);if(sn){gs+=sn*GOAL.sun;gt+=t('pc_sun')}out.push({id:'goal',sc:gs,txt:gt});
+ const ma=+a.marriage||0,mb=+b.marriage||0;let mk;if(ma&&mb)mk=ma===mb?'same':'both';else mk=(ma||mb)?'one':'none';
+ out.push({id:'marriage',sc:MAR[mk],txt:t('pc_mar_'+mk)});
+ let raw=bonus;out.forEach(o=>{raw+=o.sc*PW[o.id];const [l,h]=PR[o.id];o.pct=Math.max(0,Math.min(100,Math.round((o.sc-l)/(h-l)*100)))});
+ const pct=Math.max(0,Math.min(100,Math.round((raw-PR.lo)/(PR.hi-PR.lo)*100)));
+ const rank=pct>=90?'r5':pct>=75?'r4':pct>=60?'r3':pct>=45?'r2':pct>=30?'r1':'r0';return {pct,rank,out}}
+function pairCap(s,rec){const g=rec.gender==='m'?t('male'):rec.gender==='f'?t('female'):'';const parts=[g,rec.hand==='left'?t('leftHand'):t('rightHand')].filter(Boolean).join(LANG==='ja'?'・':', ');
+ return t('person'+s)+(LANG==='ja'?'（'+parts+'）':' ('+parts+')')}
+function showPair(item){const r=compat(item.A,item.B);['alignScr','scanScr','resScr','pairMidScr'].forEach(i=>$(i).hidden=true);
+ $('pairScr').hidden=false;document.body.style.overflow='hidden';$('pairScr').scrollTop=0;$('pairShiImg').src=shiSrc(state.month);
+ $('pairCapA').textContent=pairCap('A',item.A);$('pairCapB').textContent=pairCap('B',item.B);
+ requestAnimationFrame(()=>{drawRec($('pairCvA'),item.A);drawRec($('pairCvB'),item.B)});
+ $('pairRank').textContent=t('rank_'+r.rank);$('pairMeter').setAttribute('aria-label',t('pairMeter')+' '+r.pct+'%');
+ const bub=$('pairBubble');bub.textContent=t('rt_'+r.rank);const sm=document.createElement('small');sm.textContent=t('pairSmall');bub.appendChild(sm);
+ const box=$('pairCards');box.innerHTML='';
+ r.out.forEach(o=>{const c=document.createElement('div');c.className='pcCard';const h=document.createElement('h3');
+  const ic=document.createElement('span');ic.textContent=PCM[o.id].icon;const nm=document.createElement('span');nm.textContent=t('pcn_'+o.id);
+  const pv=document.createElement('b');pv.className='pv';pv.textContent=o.pct+'%';h.append(ic,nm,pv);
+  const bar=document.createElement('div');bar.className='pbar';const i=document.createElement('i');i.style.width=o.pct+'%';i.style.background=LMAP[PCM[o.id].col].color;bar.appendChild(i);
+  const p=document.createElement('p');p.textContent=o.txt;c.append(h,bar,p);box.appendChild(c)});
+ cancelAnimationFrame(pairAnim);const arc=$('pairArc'),num=$('pairPct');const C=2*Math.PI*86;arc.style.strokeDasharray=C;arc.style.strokeDashoffset=C;num.textContent='0';
+ const still=matchMedia('(prefers-reduced-motion: reduce)').matches;const t0=performance.now(),dur=1800;
+ function f(now){const p=still?1:Math.min(1,(now-t0)/dur);const e=1-Math.pow(1-p,3);const v=r.pct*e;num.textContent=Math.round(v);arc.style.strokeDashoffset=C*(1-v/100);
+  if(p<1)pairAnim=requestAnimationFrame(f);else{talk($('pairShi'));if(r.pct>=60)SFX.fanfare();else SFX.pon()}}
+ pairAnim=requestAnimationFrame(f)}
+function renderPairHist(){const h=$('pairHist');h.innerHTML='';h.hidden=!pairHist.length;if(!pairHist.length)return;
+ const tt=document.createElement('div');tt.className='lbl';tt.textContent=t('pairHistTitle');h.appendChild(tt);
+ pairHist.forEach((it,idx)=>{const r=compat(it.A,it.B);const row=document.createElement('div');row.className='phRow';
+  const ob=document.createElement('button');ob.type='button';ob.className='sec';ob.textContent=fmtDate(it.date)+'　💞 '+r.pct+'%　'+t('rank_'+r.rank);ob.onclick=()=>showPair(it);
+  const dl=document.createElement('button');dl.type='button';dl.className='phDel';dl.textContent='✕';dl.setAttribute('aria-label','delete');
+  dl.onclick=()=>{if(!dl.classList.contains('armed')){dl.classList.add('armed');dl.textContent=t('delAsk');setTimeout(()=>{if(dl.isConnected){dl.classList.remove('armed');dl.textContent='✕'}},3000);return}
+   pairHist.splice(idx,1);savePair();renderPairHist();toast(t('deleted'))};
+  row.append(ob,dl);h.appendChild(row)})}
+$('pairClose').onclick=()=>{cancelAnimationFrame(pairAnim);closeScreens();setBubble(t('hello'))};
+$('pairAgain').onclick=()=>{cancelAnimationFrame(pairAnim);closeScreens();$('pairCard').scrollIntoView({behavior:'smooth',block:'start'})};
+buildPairUI();paintPair();renderPairHist();
+
+/* ---------- history ---------- */
+function renderHist(){const h=$('hist');h.innerHTML='';$('histCard').hidden=!history.length;
+ history.forEach((rec,idx)=>{const it=document.createElement('div');it.className='it';const ob=document.createElement('button');ob.type='button';ob.className='open';ob.setAttribute('aria-label',fmtDate(rec.date));
+  const im=document.createElement('img');im.src=rec.img;im.alt='';ob.appendChild(im);ob.onclick=()=>showResult(rec);
+  const dl=document.createElement('button');dl.type='button';dl.className='del';dl.textContent='✕';dl.setAttribute('aria-label','delete');
+  dl.onclick=()=>{if(!dl.classList.contains('armed')){dl.classList.add('armed');dl.textContent=t('delAsk');setTimeout(()=>{if(dl.isConnected){dl.classList.remove('armed');dl.textContent='✕'}},3000);return}
+   history.splice(idx,1);saveAll();renderHist();toast(t('deleted'))};
+  const dd=document.createElement('div');dd.className='d';dd.textContent=fmtDate(rec.date)+' '+(rec.hand==='right'?t('rightHand'):t('leftHand'));
+  it.append(ob,dl,dd);h.appendChild(it)})}
+
+/* ---------- dev zip (artifact only) ---------- */
+if(window.claude&&typeof window.claude.use==='function'){window.claude.use('downloads').then(dl=>{if(!dl)return;$('devBox').hidden=false;
+ $('zipBtn').onclick=async()=>{try{const r=await fetch('tesou-PLM.zip.txt');const b64=(await r.text()).trim();const bin=atob(b64);const u8=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);const b=new Blob([u8]);await dl.save({filename:'tesou-PLM-v'+VERSION+'.zip',data:b});toast(t('zipOk'))}catch(e){if(!e||e.code!=='declined')toast(t('zipNg'))}}}).catch(()=>{})}
+
+/* ---------- service worker (auto update) ---------- */
+if('serviceWorker' in navigator&&location.protocol==='https:'&&!/claude|claudeusercontent/.test(location.hostname)){
+ const had=!!navigator.serviceWorker.controller;let reloaded=false;
+ navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(reg=>{reg.update().catch(()=>{});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')reg.update().catch(()=>{})})}).catch(()=>{});
+ navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!had||reloaded)return;reloaded=true;saveAll();
+  if($('scanScr').hidden&&$('alignScr').hidden){try{sessionStorage.setItem('plm_upd','1')}catch(e){}location.reload()}})}
+try{if(sessionStorage.getItem('plm_upd')){sessionStorage.removeItem('plm_upd');setTimeout(()=>toast(t('updated')+' v'+VERSION),800)}}catch(e){}
+addEventListener('offline',()=>toast(t('offline')));
+
+/* ---------- 画面全体を画像で保存（ライブラリ不使用・オフラインで動作） ---------- */
+(function shot(){
+ const SKIP={SCRIPT:1,STYLE:1,LINK:1,META:1,TITLE:1,NOSCRIPT:1,TEMPLATE:1};
+ const wait=ms=>new Promise(r=>setTimeout(r,ms));
+ const imgCache=new Map();
+ function imgData(im){/* 画像を中に埋め込む（外のファイルのままだと画像に写らないため） */
+  const u=im.currentSrc||im.src;if(!u)return '';if(u.startsWith('data:'))return u;if(imgCache.has(u))return imgCache.get(u);
+  let d='';try{if(im.naturalWidth){const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext('2d').drawImage(im,0,0);
+   d=/\.jpe?g(\?|$)/i.test(u)?c.toDataURL('image/jpeg',.9):c.toDataURL('image/png')}}catch(e){d=''}
+  imgCache.set(u,d);return d}
+ function styleOf(cs){let s='';for(let i=0;i<cs.length;i++){const p=cs[i];if(p.indexOf('animation')===0||p.indexOf('transition')===0||p==='will-change')continue;s+=p+':'+cs.getPropertyValue(p)+';'}return s}
+ function pseudo(src,which){const cs=getComputedStyle(src,which);const c=cs.content;if(!c||c==='none'||c==='normal')return null;
+  const sp=document.createElement('span');sp.setAttribute('style',styleOf(cs));const m=c.match(/^["'](.*)["']$/);sp.textContent=m?m[1]:'';return sp}
+ function clone(src){
+  if(src.nodeType===3)return document.createTextNode(src.nodeValue);
+  if(src.nodeType!==1||SKIP[src.tagName]||src.id==='ssm')return null;
+  const cs=getComputedStyle(src);if(cs.display==='none'||cs.position==='fixed')return null;
+  if(src instanceof SVGElement){const el=src.cloneNode(true);el.setAttribute('style',styleOf(cs));return el}
+  let el;
+  if(src.tagName==='CANVAS'){el=document.createElement('img');try{el.src=src.toDataURL()}catch(e){}}
+  else if(src.tagName==='IMG'){const d=imgData(src);if(!d)return null;el=document.createElement('img');el.src=d}
+  else el=document.createElement(src.tagName==='BODY'?'div':src.tagName.toLowerCase());
+  el.setAttribute('style',styleOf(cs));
+  if(src.tagName==='IMG'||src.tagName==='CANVAS')return el;
+  if(src.tagName==='INPUT'){el.setAttribute('value',src.value);if(src.checked)el.setAttribute('checked','checked');el.setAttribute('type',src.type);return el}
+  if(src.tagName==='TEXTAREA'){el.textContent=src.value;return el}
+  const b=pseudo(src,'::before');if(b)el.appendChild(b);
+  for(const c of src.childNodes){const k=clone(c);if(k)el.appendChild(k)}
+  const a=pseudo(src,'::after');if(a)el.appendChild(a);
+  return el}
+ function loadImg(u){return new Promise((ok,ng)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=ng;im.src=u})}
+ function notBlank(c){try{const x=c.getContext('2d'),w=c.width,h=Math.min(c.height,c.width*3),d=x.getImageData(0,0,w,h).data;const a=d[0],b=d[1],e=d[2];
+  for(let i=0;i<d.length;i+=4*97){if(Math.abs(d[i]-a)+Math.abs(d[i+1]-b)+Math.abs(d[i+2]-e)>30)return true}return false}catch(e){return false}}
+ async function capture(){
+  /* 開いている画面（診断結果・相性など）があればその画面を、なければアプリ全体を写す */
+  const scr=[...document.querySelectorAll('.screen')].find(s=>!s.hidden);
+  let root,W,H,bg,pad=0;
+  if(scr){root=scr.querySelector('.inner');pad=16;W=root.offsetWidth+pad*2;H=root.scrollHeight+pad*2;bg=getComputedStyle(scr).backgroundColor}
+  else{root=document.body;W=document.documentElement.clientWidth;H=Math.max(root.scrollHeight,document.documentElement.scrollHeight);bg=getComputedStyle(root).backgroundColor}
+  const cl=clone(root);cl.style.margin='0';cl.style.overflow='hidden';
+  let top;
+  if(scr){top=document.createElement('div');top.setAttribute('style','box-sizing:border-box;width:'+W+'px;height:'+H+'px;padding:'+pad+'px;background:'+bg+';overflow:hidden;font-family:'+getComputedStyle(document.body).fontFamily);
+   cl.style.width=(W-pad*2)+'px';cl.style.maxWidth='none';top.appendChild(cl)}
+  else{top=cl;top.style.width=W+'px';top.style.height=H+'px'}
+  top.setAttribute('xmlns','http://www.w3.org/1999/xhtml');
+  const xml=new XMLSerializer().serializeToString(top);
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'"><foreignObject x="0" y="0" width="100%" height="100%">'+xml+'</foreignObject></svg>';
+  const im=await loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg));
+  const sc=Math.max(.5,Math.min(2,window.devicePixelRatio||1,Math.sqrt(15e6/(W*H))));
+  const c=document.createElement('canvas');c.width=Math.round(W*sc);c.height=Math.round(H*sc);const x=c.getContext('2d');
+  const draw=()=>{x.setTransform(1,0,0,1,0,0);x.fillStyle=bg&&bg!=='rgba(0, 0, 0, 0)'?bg:'#1d1640';x.fillRect(0,0,c.width,c.height);x.setTransform(sc,0,0,sc,0,0);x.drawImage(im,0,0,W,H)};
+  draw();await wait(400);draw();/* iPhoneは1回目に絵が抜けることがあるので2回描く */
+  if(!notBlank(c))throw new Error('blank');
+  return await new Promise((ok,ng)=>c.toBlob(b=>b?ok(b):ng(new Error('blob')),'image/jpeg',.92))}
+ /* 表示用の小さな画面 */
+ const m=document.createElement('div');m.className='modal';m.id='ssm';m.hidden=true;m.style.zIndex='90';
+ m.innerHTML='<div class="box"><h3 id="ssh"></h3><p id="ssmsg" style="margin:0;font-weight:800"></p><p class="note" id="sshint" hidden style="margin:0"></p>'+
+  '<img id="ssim" alt="" hidden style="border:2px solid #5243a8"><button type="button" class="pink" id="sssh" hidden></button><button type="button" class="sec" id="ssc"></button></div>';
+ document.body.appendChild(m);
+ const st=document.createElement('style');st.textContent='.ssld{display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px;border:2px solid var(--gold);border-top-color:transparent;border-radius:50%;animation:ssr .8s linear infinite}@keyframes ssr{to{transform:rotate(360deg)}}';document.head.appendChild(st);
+ $('ssh').textContent=t('shotBtn');$('sshint').textContent=t('shotHint');$('sssh').textContent=t('shotShare');$('ssc').textContent=t('close');
+ let SF=null,SU=null,DL=null,busy=false;
+ try{if(window.claude&&typeof window.claude.use==='function')window.claude.use('downloads').then(d=>{DL=d}).catch(()=>{})}catch(e){}
+ async function saveShot(){if(busy)return;busy=true;
+  SFX.beep();/* タップ（click）の中で鳴らすとiPhoneでも確実に鳴る */
+  const box=m.querySelector('.box');['sshint','ssim','sssh'].forEach(i=>$(i).hidden=true);
+  $('ssmsg').innerHTML='';const ld=document.createElement('span');ld.className='ssld';$('ssmsg').append(ld,document.createTextNode(t('shotMaking')));
+  m.hidden=false;box.scrollTop=0;
+  await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));await wait(350);/* 先に表示と「ピッ」を出してから重い作業 */
+  let b=null;try{b=await capture()}catch(e){b=null}
+  busy=false;
+  if(!b){$('ssmsg').textContent=t('shotFail');return}
+  const scr=[...document.querySelectorAll('.screen')].find(s=>!s.hidden);
+  const d=new Date(),nm=(LANG==='ja'?'手相スキャン_':'palm_')+(scr?scr.id.replace('Scr',''):'top')+'_'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'.jpg';
+  SF=new File([b],nm,{type:'image/jpeg'});if(SU)URL.revokeObjectURL(SU);SU=URL.createObjectURL(b);
+  $('ssim').src=SU;$('ssim').hidden=false;$('sshint').hidden=false;$('sssh').hidden=false;$('ssmsg').textContent=t('shotDone');box.scrollTop=0;SFX.pon()}
+ $('sssh').onclick=()=>{if(!SF)return;
+  const viaDL=()=>{if(!DL)return false;DL.save({filename:SF.name,data:SF}).then(()=>toast(t('zipOk'))).catch(()=>{});return true};
+  if(navigator.canShare&&navigator.canShare({files:[SF]})){navigator.share({files:[SF]}).catch(e=>{if(e&&e.name==='AbortError')return;viaDL()});return}
+  if(viaDL())return;
+  const a=document.createElement('a');a.href=SU;a.download=SF.name;document.body.appendChild(a);a.click();a.remove()};
+ $('ssc').onclick=()=>{m.hidden=true};
+ m.addEventListener('click',e=>{if(e.target===m)m.hidden=true});
+ document.querySelectorAll('.shotb').forEach(b=>b.addEventListener('click',saveShot));
+})();
+
+
+/* ---------- start ---------- */
+setMonth(state.month);paintSeg();renderHist();setTimeout(()=>setBubble(t('hello'),t('helloSmall')),500);
+window.__plm={analyze,state,get X(){return X},set X(v){X=v},setPhoto:c=>{photo=c},cat,finish,LINES};
+})();
+</script>
+
+</body></html>
