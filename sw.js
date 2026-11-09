@@ -1,9 +1,9 @@
 /* しーちゃんの手相スキャン service worker — offline + auto update */
-const VERSION = '1.3.0';
+const VERSION = '1.4.0';
 const CACHE = 'plm-' + VERSION;
 const ASSETS = [
   './', './index.html', './tesou.html', './manifest.json',
-  './img/icon-180.png', './img/hand-right.png', './img/hand-left.png', './img/icon-192.png', './img/icon-512.png', './img/logo.png',
+  './img/icon-180.png', './img/hand-right.png', './img/hand-left.png', './img/icon-192.png', './img/icon-512.png', './img/logo.png', './img/opening.jpg',
   './img/san0.png', './img/san1.png', './img/san2.png', './img/san3.png', './img/san4.png',
   './img/san5.png', './img/san6.png', './img/san7.png', './img/san8.png', './img/san9.png',
   './img/sanh0.png','./img/sanh1.png','./img/sanh2.png','./img/sanh3.png','./img/sanh4.png','./img/sanh5.png','./img/sanh6.png','./img/sanh7.png','./img/sanh8.png','./img/sanh9.png',
