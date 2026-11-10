@@ -108,7 +108,9 @@ input[type=date].tin{-webkit-appearance:none;appearance:none;display:block}
 #bloodSeg button{min-width:56px}
 #bloodSeg button[data-b=x]{flex-basis:100%}
 #thickSeg button{flex-direction:column;gap:4px;min-width:84px}
-#thickSeg svg{width:46px;height:26px}
+#thickSeg button{padding:8px 6px;min-width:0}
+#thickSeg img{display:block;width:100%;max-width:150px;aspect-ratio:12/5;object-fit:contain;background:#fff;border-radius:10px;pointer-events:none}
+#thickSeg button.on img{outline:3px solid var(--gold);outline-offset:1px}
 /* faces */
 .shi.face{background:radial-gradient(circle at 50% 40%,#7a5ce0,#2b2163 75%)!important}
 .shi.face img{object-fit:contain!important;object-position:50% 100%}
@@ -230,6 +232,36 @@ footer .row button,footer .row .btn{flex:1 1 140px}
 .ppStat:empty{display:none}
 #pairCard{border-color:#ff6fae;background:linear-gradient(180deg,#3b1f5e,#2a1650)}
 #pairHist{display:flex;flex-direction:column;gap:8px}
+.more{align-self:center;font-size:14px;padding:10px 18px}
+.hist .it .nm{font-size:12px;font-weight:800;color:var(--cream);text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.histCount{font-size:13px;color:var(--muted);margin:-4px 0 0}
+#rankCard{border-color:var(--gold);background:linear-gradient(180deg,#3d2c12,#2a1d4f)}
+#rankList{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.rkRow{background:#1a1440;border:2px solid #4b3ca6;border-radius:16px;padding:8px 10px;display:flex;flex-direction:column;gap:8px}
+.rkRow.top1{border-color:#f6c445;box-shadow:0 0 12px rgba(246,196,69,.45)}
+.rkRow.top2{border-color:#d9dde8}
+.rkRow.top3{border-color:#d08a4a}
+.rkMain{display:grid;grid-template-columns:30px auto minmax(0,1fr) auto;gap:8px;align-items:center}
+.rkNo{font-family:var(--f-disp);font-size:20px;text-align:center;color:var(--gold2)}
+.rkTh{display:flex;gap:2px;padding:0;background:transparent;box-shadow:none;border-radius:8px;min-height:0}
+.rkTh img{width:34px;height:44px;object-fit:cover;border-radius:6px;display:block;background:#000}
+.rkMid{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:0;padding:4px 6px;background:transparent;box-shadow:none;text-align:left;min-height:0}
+.rkMid .nms{font-weight:800;font-size:15px;line-height:1.35;color:var(--cream);max-width:100%;overflow-wrap:anywhere}
+.rkMid .nms.none{color:var(--muted);font-weight:500}
+.rkMid .dt{font-size:12px;color:var(--muted)}
+.rkRight{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.rkPct{font-family:var(--f-disp);font-size:20px;font-weight:400;color:var(--pink);white-space:nowrap}
+.rkEdBtn{font-size:13px;padding:6px 10px;min-height:0;white-space:nowrap}
+.rkEdit{display:flex;flex-direction:column;gap:8px;border-top:1px dashed #4b3ca6;padding-top:8px}
+.nmRow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:center}
+.nmRow span{font-size:13px;font-weight:800;color:var(--muted);white-space:nowrap}
+.nmRow .tin{min-height:44px;padding:8px 12px;font-size:16px}
+.rkBtns{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.rkBtns button{font-size:14px;padding:10px 14px}
+.rkBtns .rkDel{background:#ff5a7a;color:#fff;box-shadow:0 3px 0 #8c1d34}
+.topIn{background:linear-gradient(180deg,#5a3d0e,#3a2370);border:3px solid var(--gold);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 0 18px rgba(246,196,69,.35)}
+.topIn .topH{font-family:var(--f-disp);font-size:20px;color:var(--gold2);text-align:center}
+.topIn p{margin:0;font-size:14px;text-align:center}
 .phRow{display:flex;gap:8px;align-items:center}
 .phRow button.sec{flex:1 1 auto;min-width:0;justify-content:flex-start;font-size:14px;padding:10px 12px;text-align:left}
 .phRow button.phDel{flex:0 0 auto;width:36px;height:36px;padding:0;border-radius:50%;background:#ff5a7a;color:#fff;box-shadow:0 3px 0 #8c1d34;font-size:14px}
@@ -345,9 +377,9 @@ animation:opIn .6s ease .7s both,opBeat 1.2s ease-in-out 1.4s infinite;-webkit-t
     <div>
       <div class="lbl" data-dt="thickLbl"></div>
       <div class="seg" id="thickSeg">
-        <button type="button" class="sec" data-t="thick"><svg viewBox="0 0 46 26" aria-hidden="true"><path d="M3 13 Q23 2 43 13 Q23 24 3 13Z" fill="#ffd2b0" stroke="#7a3d1c" stroke-width="2"/></svg><span data-dt="thick_thick"></span></button>
-        <button type="button" class="sec" data-t="mid"><svg viewBox="0 0 46 26" aria-hidden="true"><path d="M3 13 Q23 6 43 13 Q23 20 3 13Z" fill="#ffd2b0" stroke="#7a3d1c" stroke-width="2"/></svg><span data-dt="thick_mid"></span></button>
-        <button type="button" class="sec" data-t="thin"><svg viewBox="0 0 46 26" aria-hidden="true"><path d="M3 13 Q23 9.5 43 13 Q23 16.5 3 13Z" fill="#ffd2b0" stroke="#7a3d1c" stroke-width="2"/></svg><span data-dt="thick_thin"></span></button>
+        <button type="button" class="sec" data-t="thick"><img src="img/handside-thick.jpg" alt="" aria-hidden="true"><span data-dt="thick_thick"></span></button>
+        <button type="button" class="sec" data-t="mid"><img src="img/handside-mid.jpg" alt="" aria-hidden="true"><span data-dt="thick_mid"></span></button>
+        <button type="button" class="sec" data-t="thin"><img src="img/handside-thin.jpg" alt="" aria-hidden="true"><span data-dt="thick_thin"></span></button>
       </div>
       <p class="note" style="margin:6px 0 0" data-dt="thickNote"></p>
     </div>
@@ -391,9 +423,17 @@ animation:opIn .6s ease .7s both,opBeat 1.2s ease-in-out 1.4s infinite;-webkit-t
     <div id="pairHist" hidden></div>
   </section>
 
+  <section class="card" id="rankCard" hidden>
+    <h2 data-i18n="rkTitle">🏆 相性ランキング ベスト10</h2>
+    <p class="note" style="margin:0" data-i18n="rkNote"></p>
+    <ol id="rankList"></ol>
+  </section>
+
   <section class="card" id="histCard" hidden>
     <h2 data-i18n="histTitle">前の結果</h2>
+    <p class="histCount" id="histCount"></p>
     <div class="hist" id="hist"></div>
+    <button type="button" class="sec more" id="histMore" hidden></button>
   </section>
 
   <section class="card">
@@ -502,6 +542,7 @@ animation:opIn .6s ease .7s both,opBeat 1.2s ease-in-out 1.4s infinite;-webkit-t
       <div class="pct"><div><b id="pairPct">0</b><span>%</span></div></div>
     </div>
     <div class="rank" id="pairRank"></div>
+    <div class="topIn" id="pairTop" hidden></div>
     <div class="sumBox"><div class="shi face" id="pairShi"><img id="pairShiImg" alt="しーちゃん" src="img/face-happy.png"></div><div class="bubble" id="pairBubble"></div></div>
     <div id="pairCards" style="display:flex;flex-direction:column;gap:12px"></div>
     <button type="button" class="big shotb" data-i18n="shotBtn">📸 画面全体を画像で保存</button>
@@ -515,7 +556,7 @@ animation:opIn .6s ease .7s both,opBeat 1.2s ease-in-out 1.4s infinite;-webkit-t
 <script>
 (()=>{
 'use strict';
-const VERSION='1.4.0';
+const VERSION='1.6.0';
 const LANG=((navigator.languages&&navigator.languages[0])||navigator.language||'ja').toLowerCase().startsWith('ja')?'ja':'en';
 document.documentElement.lang=LANG;
 const SHOP_URL='https://www.instagram.com/mirateria.project/';
@@ -685,6 +726,18 @@ Object.assign(T.ja,{shotBtn:'📸 画面全体を画像で保存',shotMaking:'�
 shotHint:'📱 画像を長押しで保存できます。iPhoneは「写真に追加」、Androidは「画像をダウンロード」を選んでね',shotShare:'📤 保存する・送る',shotFail:'画像を作れませんでした。もう一度ためしてね。'});
 Object.assign(T.en,{shotBtn:'📸 Save the whole screen as an image',shotMaking:'Making the image. This takes a few seconds…',shotDone:'✅ The whole-screen image is ready.',
 shotHint:'📱 Long-press the image to save it. iPhone: "Add to Photos". Android: "Download image".',shotShare:'📤 Save / send',shotFail:'Could not make the image. Please try again.'});
+Object.assign(T.ja,{histTitle:'📜 占いの履歴',histCount:'全{n}件（最大{max}件まで残ります）',more:'もっと見る（あと{n}件）',
+pairHistTitle:'💞 相性の履歴',
+rkTitle:'🏆 相性ランキング ベスト10',rkNote:'相性のいいふたりを10位まで残します。✏️でニックネームをつけておけます。',
+rkIn:'🏆 ランキング {n}位に入ったよ！',rkInP:'あとで誰か分かるように、ニックネームをつけておこう。（入力すると自動で保存）',
+rkPh:'ニックネーム',rkNoName:'名前なし',rkEdit:'✏️ 名前',rkOk:'✔ OK',rkDel:'ランキングから消す',rkGone:'この結果は履歴から消えているので開けません',
+rkSaved:'名前を保存しました',rkOut:'ランキングから消しました'});
+Object.assign(T.en,{histTitle:'📜 Reading history',histCount:'{n} saved (keeps up to {max})',more:'Show more ({n} left)',
+pairHistTitle:'💞 Compatibility history',
+rkTitle:'🏆 Compatibility Top 10',rkNote:'The best-matched pairs are kept up to 10th place. Tap ✏️ to add nicknames.',
+rkIn:'🏆 You made #{n} in the ranking!',rkInP:'Add nicknames so you know who they were later. (Saved as you type)',
+rkPh:'Nickname',rkNoName:'No name',rkEdit:'✏️ Name',rkOk:'✔ OK',rkDel:'Remove from ranking',rkGone:'This result was deleted from history, so it cannot be opened',
+rkSaved:'Names saved',rkOut:'Removed from ranking'});
 const t=k=>(T[LANG][k]!==undefined?T[LANG][k]:(T.ja[k]!==undefined?T.ja[k]:k));
 document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.dataset.i18n)});
 document.title=t('appTitle');
@@ -781,10 +834,19 @@ const LS={get(k,d){try{const v=localStorage.getItem('plm_'+k);return v==null?d:J
  set(k,v){try{localStorage.setItem('plm_'+k,JSON.stringify(v));return true}catch(e){return false}}};
 const state={gender:LS.get('gender',null),dom:LS.get('dom','right'),hand:LS.get('hand','right'),month:LS.get('month',new Date().getMonth()+1)};
 let history=LS.get('history',[]);
+const HIST_MAX=100,PAIR_MAX=100;
+/* big results (photos) go to IndexedDB so many can be kept; localStorage is the fallback */
+const DB={db:null,
+ open(){return new Promise(res=>{try{const r=indexedDB.open('plm-db',1);r.onupgradeneeded=()=>{r.result.createObjectStore('kv')};r.onsuccess=()=>{DB.db=r.result;res(true)};r.onerror=()=>res(false);r.onblocked=()=>res(false)}catch(e){res(false)}})},
+ get(k){return new Promise(res=>{if(!DB.db)return res(undefined);try{const q=DB.db.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>res(undefined)}catch(e){res(undefined)}})},
+ set(k,v){return new Promise(res=>{if(!DB.db)return res(false);try{const tx=DB.db.transaction('kv','readwrite');tx.objectStore('kv').put(v,k);tx.oncomplete=()=>res(true);tx.onerror=tx.onabort=()=>res(false)}catch(e){res(false)}})}};
+function putBig(key,arr){if(DB.db){DB.set(key,arr).then(ok=>{if(ok){try{localStorage.removeItem('plm_'+key)}catch(e){}}else while(arr.length&&!LS.set(key,arr))arr.pop()});return}
+ while(arr.length&&!LS.set(key,arr))arr.pop()}
+function mergeById(a,b,max){const seen=new Set(),out=[];for(const x of [...a,...b]){if(!x||seen.has(x.id))continue;seen.add(x.id);out.push(x)}out.sort((p,q)=>q.date-p.date);return out.slice(0,max)}
 let pairActive=null,pairSavedHand=null;
-function saveAll(){LS.set('gender',state.gender);LS.set('dom',state.dom);LS.set('hand',pairActive?pairSavedHand:state.hand);LS.set('month',state.month);
- while(history.length&&!LS.set('history',history))history.pop();}
-addEventListener('pagehide',saveAll);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveAll()});
+function savePrefs(){LS.set('gender',state.gender);LS.set('dom',state.dom);LS.set('hand',pairActive?pairSavedHand:state.hand);LS.set('month',state.month)}
+function saveAll(){savePrefs();putBig('history',history)}
+addEventListener('pagehide',savePrefs);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')savePrefs()});
 
 /* ---------- sound ---------- */
 let AC=null,acted=false;
@@ -1220,7 +1282,7 @@ function finish(out){const res=out.res;const thumb=document.createElement('canva
   lines[id]={found:r.found,seg:r.found?segPts(r).map(p=>[Math.round(p[0]),Math.round(p[1])]):[]}}
  const rec={id:Date.now(),date:Date.now(),hand:state.hand,dom:state.dom,gender:state.gender,prof:pairActive?null:Object.assign({},prof),img:thumb.toDataURL('image/jpeg',.72),lines,cats:cat(res,state.hand)};
  if(pairActive){pairDone(rec);return}
- history.unshift(rec);history=history.slice(0,8);saveAll();renderHist();SFX.fanfare();showResult(rec)}
+ history.unshift(rec);history=history.slice(0,HIST_MAX);saveAll();renderHist();SFX.fanfare();showResult(rec)}
 
 /* ---------- result ---------- */
 let curRec=null,selLine=null,resImg=null,resRAF=0;
@@ -1299,7 +1361,7 @@ secFace:'表の顔（まわりから見たあなた）',secHide:'裏の顔（本
 secPerson:'🪞 性格',profTpl:'{z}・数秘{n}・{k}・{b}型',profNoBirth:'{b}',bloodUnknown:'血液型ひみつ',
 jobs:'向いていること：',luckyColor:'ラッキーカラー',luckyNum:'ラッキーナンバー',luckyItem:'ラッキーアイテム',luckyMonth:'いちばん運気が高い月',
 peak:'山',low:'谷',monthUnit:'月',yearTheme:'今年のテーマ：',
-thickLbl:'手のひらの厚み',thick_thick:'厚い',thick_mid:'ふつう',thick_thin:'薄い',thickNote:'手を横から見て、だいたいで選んでね。',
+thickLbl:'手のひらの厚み',thick_thick:'厚い',thick_mid:'ふつう',thick_thin:'薄い',thickNote:'手を横から見て、いちばん近い絵を選んでね。',
 nameLbl:'名前（名前だけ・空欄でもOK）',namePh:'例：アキ',birthLbl:'生年月日',bloodLbl:'血液型',bloodX:'わからない',
 deepLink:'↓ 下に「深読み占い」もあるよ ↓',
 },en:{
@@ -1310,7 +1372,7 @@ secFace:'Your outside (how others see you)',secHide:'Your inside (the real you)'
 secPerson:'🪞 Personality',profTpl:'{z} · Life path {n} · {k} · Type {b}',profNoBirth:'{b}',bloodUnknown:'Blood type secret',
 jobs:'Good at: ',luckyColor:'Lucky color',luckyNum:'Lucky number',luckyItem:'Lucky item',luckyMonth:'Your luckiest month',
 peak:'High',low:'Low',monthUnit:'',yearTheme:'Theme of the year: ',
-thickLbl:'Palm thickness',thick_thick:'Thick',thick_mid:'Average',thick_thin:'Thin',thickNote:'Look at your hand from the side and pick roughly.',
+thickLbl:'Palm thickness',thick_thick:'Thick',thick_mid:'Average',thick_thin:'Thin',thickNote:'Look at your hand from the side and pick the closest picture.',
 nameLbl:'First name (optional)',namePh:'e.g. Aki',birthLbl:'Birthday',bloodLbl:'Blood type',bloodX:"Don't know",
 deepLink:'↓ Your deep reading is further down ↓',
 }};
@@ -1478,8 +1540,9 @@ $('deepGo').addEventListener('click',()=>{$('deepBox').scrollIntoView({behavior:
 /* ---------- pair (compatibility) ---------- */
 const pairSet=LS.get('pairSet',{A:{g:null,h:'right'},B:{g:null,h:'right'}});
 let pairWip=LS.get('pairWip',null),pairHist=LS.get('pairHist',[]),pairAnim=0;
-function savePair(){LS.set('pairSet',pairSet);LS.set('pairWip',pairWip);while(pairHist.length&&!LS.set('pairHist',pairHist))pairHist.pop()}
-addEventListener('pagehide',savePair);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')savePair()});
+function savePairSmall(){LS.set('pairSet',pairSet);LS.set('pairWip',pairWip)}
+function savePair(){savePairSmall();putBig('pairHist',pairHist)}
+addEventListener('pagehide',savePairSmall);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')savePairSmall()});
 function endPair(){if(pairActive){state.hand=pairSavedHand;pairActive=null;pairSavedHand=null}$('alignScr').querySelector('h2').textContent=t('alignTitle')}
 function buildPairUI(){['A','B'].forEach(s=>{const box=$('pp'+s);box.innerHTML='';
  const lb=document.createElement('div');lb.className='lbl';lb.textContent=t('person'+s);box.appendChild(lb);
@@ -1496,7 +1559,7 @@ $('pairLibIn').addEventListener('change',e=>{pairPick(e.target.files[0]);e.targe
 $('pairReset').onclick=()=>{pairWip=null;savePair();paintPair();toast(t('pairResetDone'))};
 function pairDone(rec){const slot=pairActive;rec.gender=pairSet[slot].g;endPair();$('scanScr').hidden=true;$('alignScr').hidden=true;
  if(slot==='A'||!(pairWip&&pairWip.A)){pairWip={A:rec};savePair();paintPair();SFX.fanfare();openMid();return}
- const item={id:Date.now(),date:Date.now(),A:pairWip.A,B:rec};pairHist.unshift(item);pairHist=pairHist.slice(0,5);pairWip=null;savePair();paintPair();renderPairHist();showPair(item)}
+ const item={id:Date.now(),date:Date.now(),A:pairWip.A,B:rec,nA:'',nB:''};pairHist.unshift(item);pairHist=pairHist.slice(0,PAIR_MAX);pairWip=null;savePair();rankAdd(item);paintPair();renderPairHist();showPair(item)}
 function drawRec(cv,rec){sizeCv(cv);const im=new Image();im.onload=()=>{const g=cv.getContext('2d');g.setTransform(1,0,0,1,0,0);g.drawImage(im,0,0,cv.width,cv.height);
  g.fillStyle='rgba(10,6,30,.25)';g.fillRect(0,0,cv.width,cv.height);const k=cv.width/AW;ORDER.forEach(id=>drawLineOn(g,id,rec.lines,k,1,0,false))};im.src=rec.img}
 function openMid(){$('pairMidScr').hidden=false;document.body.style.overflow='hidden';$('pairMidScr').scrollTop=0;setFace('midShi','midShiImg','think');talk($('midShi'));
@@ -1524,11 +1587,12 @@ function compat(A,B){const a=A.cats||{},b=B.cats||{};const out=[];let bonus=0;
  let raw=bonus;out.forEach(o=>{raw+=o.sc*PW[o.id];const [l,h]=PR[o.id];o.pct=Math.max(0,Math.min(100,Math.round((o.sc-l)/(h-l)*100)))});
  const pct=Math.max(0,Math.min(100,Math.round((raw-PR.lo)/(PR.hi-PR.lo)*100)));
  const rank=pct>=90?'r5':pct>=75?'r4':pct>=60?'r3':pct>=45?'r2':pct>=30?'r1':'r0';return {pct,rank,out}}
-function pairCap(s,rec){const g=rec.gender==='m'?t('male'):rec.gender==='f'?t('female'):'';const parts=[g,rec.hand==='left'?t('leftHand'):t('rightHand')].filter(Boolean).join(LANG==='ja'?'・':', ');
- return t('person'+s)+(LANG==='ja'?'（'+parts+'）':' ('+parts+')')}
+function pairCap(s,rec,nick){const g=rec.gender==='m'?t('male'):rec.gender==='f'?t('female'):'';const parts=[g,rec.hand==='left'?t('leftHand'):t('rightHand')].filter(Boolean).join(LANG==='ja'?'・':', ');
+ return (nick?nick+' ':'')+t('person'+s)+(LANG==='ja'?'（'+parts+'）':' ('+parts+')')}
+function capPair(item){const n=namesOf(item);$('pairCapA').textContent=pairCap('A',item.A,n.nA);$('pairCapB').textContent=pairCap('B',item.B,n.nB)}
 function showPair(item){const r=compat(item.A,item.B);['alignScr','scanScr','resScr','pairMidScr'].forEach(i=>$(i).hidden=true);
  $('pairScr').hidden=false;document.body.style.overflow='hidden';$('pairScr').scrollTop=0;
- $('pairCapA').textContent=pairCap('A',item.A);$('pairCapB').textContent=pairCap('B',item.B);
+ capPair(item);paintTop(item);
  requestAnimationFrame(()=>{drawRec($('pairCvA'),item.A);drawRec($('pairCvB'),item.B)});
  $('pairRank').textContent=t('rank_'+r.rank);setFace('pairShi','pairShiImg',{r5:'happy',r4:'smile',r3:'surprise',r2:'think',r1:'worry',r0:'angry'}[r.rank]);$('pairMeter').setAttribute('aria-label',t('pairMeter')+' '+r.pct+'%');
  const bub=$('pairBubble');bub.textContent=t('rt_'+r.rank);const sm=document.createElement('small');sm.textContent=t('pairSmall');bub.appendChild(sm);
@@ -1543,27 +1607,87 @@ function showPair(item){const r=compat(item.A,item.B);['alignScr','scanScr','res
  function f(now){const p=still?1:Math.min(1,(now-t0)/dur);const e=1-Math.pow(1-p,3);const v=r.pct*e;num.textContent=Math.round(v);arc.style.strokeDashoffset=C*(1-v/100);
   if(p<1)pairAnim=requestAnimationFrame(f);else{talk($('pairShi'));if(r.pct>=60)SFX.fanfare();else SFX.pon()}}
  pairAnim=requestAnimationFrame(f)}
+let pairShowAll=false;
 function renderPairHist(){const h=$('pairHist');h.innerHTML='';h.hidden=!pairHist.length;if(!pairHist.length)return;
- const tt=document.createElement('div');tt.className='lbl';tt.textContent=t('pairHistTitle');h.appendChild(tt);
- pairHist.forEach((it,idx)=>{const r=compat(it.A,it.B);const row=document.createElement('div');row.className='phRow';
-  const ob=document.createElement('button');ob.type='button';ob.className='sec';ob.textContent=fmtDate(it.date)+'　💞 '+r.pct+'%　'+t('rank_'+r.rank);ob.onclick=()=>showPair(it);
+ const tt=document.createElement('div');tt.className='lbl';tt.textContent=t('pairHistTitle')+'（'+pairHist.length+'）';h.appendChild(tt);
+ const LIM=5;const list=pairShowAll?pairHist:pairHist.slice(0,LIM);
+ list.forEach((it,idx)=>{const r=compat(it.A,it.B);const row=document.createElement('div');row.className='phRow';
+  const n=namesOf(it);const nm=(n.nA||n.nB)?'　'+(n.nA||'？')+'＆'+(n.nB||'？'):'';
+  const ob=document.createElement('button');ob.type='button';ob.className='sec';ob.textContent=fmtDate(it.date)+'　💞 '+r.pct+'%'+(nm||'　'+t('rank_'+r.rank));ob.onclick=()=>showPair(it);
   const dl=document.createElement('button');dl.type='button';dl.className='phDel';dl.textContent='✕';dl.setAttribute('aria-label','delete');
   dl.onclick=()=>{if(!dl.classList.contains('armed')){dl.classList.add('armed');dl.textContent=t('delAsk');setTimeout(()=>{if(dl.isConnected){dl.classList.remove('armed');dl.textContent='✕'}},3000);return}
-   pairHist.splice(idx,1);savePair();renderPairHist();toast(t('deleted'))};
-  row.append(ob,dl);h.appendChild(row)})}
+   const k=pairHist.indexOf(it);if(k>=0)pairHist.splice(k,1);savePair();renderPairHist();toast(t('deleted'))};
+  row.append(ob,dl);h.appendChild(row)});
+ if(!pairShowAll&&pairHist.length>LIM){const mb=document.createElement('button');mb.type='button';mb.className='sec more';mb.textContent=t('more').replace('{n}',pairHist.length-LIM);mb.onclick=()=>{pairShowAll=true;renderPairHist()};h.appendChild(mb)}}
+
+/* ---------- ranking (best 10) ---------- */
+let rank=LS.get('rank',[]);if(!Array.isArray(rank))rank=[];
+function saveRank(){if(!LS.set('rank',rank)){rank.forEach(e=>{e.tA='';e.tB=''});LS.set('rank',rank)}}
+function namesOf(item){const e=rank.find(x=>x.id===item.id);return {nA:(e?e.nA:item.nA)||'',nB:(e?e.nB:item.nB)||''}}
+function rkThumb(src){return new Promise(res=>{if(!src)return res('');const im=new Image();im.onload=()=>{try{const c=document.createElement('canvas');c.width=90;c.height=117;c.getContext('2d').drawImage(im,0,0,90,117);res(c.toDataURL('image/jpeg',.7))}catch(e){res('')}};im.onerror=()=>res('');im.src=src})}
+function rankAdd(item){if(rank.some(e=>e.id===item.id))return;const pct=compat(item.A,item.B).pct;const pos=rank.filter(e=>e.pct>=pct).length;if(pos>=10)return;
+ const e={id:item.id,date:item.date,pct,nA:item.nA||'',nB:item.nB||'',tA:'',tB:''};rank.splice(pos,0,e);rank=rank.slice(0,10);saveRank();renderRank();
+ Promise.all([rkThumb(item.A.img),rkThumb(item.B.img)]).then(([a,b])=>{e.tA=a;e.tB=b;saveRank();renderRank()})}
+let nameTimer=0;
+function setNames(id,nA,nB){const e=rank.find(x=>x.id===id);if(e){e.nA=nA;e.nB=nB;saveRank()}
+ const it=pairHist.find(x=>x.id===id);if(it){it.nA=nA;it.nB=nB;clearTimeout(nameTimer);nameTimer=setTimeout(()=>putBig('pairHist',pairHist),600)}}
+function nameInputs(box,id,onChange){const e=rank.find(x=>x.id===id);['A','B'].forEach(s=>{const row=document.createElement('label');row.className='nmRow';
+  const sp=document.createElement('span');sp.textContent=t('person'+s);const inp=document.createElement('input');inp.type='text';inp.className='tin';inp.maxLength=12;inp.placeholder=t('rkPh');inp.enterKeyHint='done';
+  inp.value=(e&&e['n'+s])||'';inp.addEventListener('input',()=>{const cur=rank.find(x=>x.id===id);const v=inp.value.trim();setNames(id,s==='A'?v:(cur?cur.nA:''),s==='B'?v:(cur?cur.nB:''));if(onChange)onChange()});
+  inp.addEventListener('keydown',ev=>{if(ev.key==='Enter')inp.blur()});
+  row.append(sp,inp);box.appendChild(row)})}
+function paintTop(item){const box=$('pairTop');box.innerHTML='';const i=rank.findIndex(e=>e.id===item.id);box.hidden=i<0;if(i<0)return;
+ const h=document.createElement('div');h.className='topH';h.textContent=t('rkIn').replace('{n}',i+1);
+ const p=document.createElement('p');p.textContent=t('rkInP');box.append(h,p);
+ nameInputs(box,item.id,()=>{capPair(item);renderRank();renderPairHist()})}
+let rkOpen=null;
+function renderRank(){const L=$('rankList');L.innerHTML='';$('rankCard').hidden=!rank.length;
+ rank.forEach((e,i)=>{const li=document.createElement('li');li.className='rkRow'+(i<3?' top'+(i+1):'');
+  const main=document.createElement('div');main.className='rkMain';
+  const no=document.createElement('div');no.className='rkNo';no.textContent=['🥇','🥈','🥉'][i]||String(i+1);
+  const open=()=>{const it=pairHist.find(x=>x.id===e.id);if(it)showPair(it);else toast(t('rkGone'))};
+  const th=document.createElement('button');th.type='button';th.className='rkTh';th.setAttribute('aria-label',fmtDate(e.date));
+  [e.tA,e.tB].forEach(src=>{const im=document.createElement('img');im.alt='';if(src)im.src=src;th.appendChild(im)});th.onclick=open;
+  const mid=document.createElement('button');mid.type='button';mid.className='rkMid';mid.onclick=open;
+  const nm=document.createElement('span');nm.className='nms'+((e.nA||e.nB)?'':' none');nm.textContent=(e.nA||e.nB)?(e.nA||'？')+' ＆ '+(e.nB||'？'):t('rkNoName');
+  const dt=document.createElement('span');dt.className='dt';dt.textContent=fmtDate(e.date);mid.append(nm,dt);
+  const right=document.createElement('div');right.className='rkRight';
+  const pc=document.createElement('b');pc.className='rkPct';pc.textContent=e.pct+'%';
+  const eb=document.createElement('button');eb.type='button';eb.className='sec rkEdBtn';eb.textContent=t('rkEdit');eb.onclick=()=>{rkOpen=rkOpen===e.id?null:e.id;renderRank()};
+  right.append(pc,eb);main.append(no,th,mid,right);li.appendChild(main);
+  if(rkOpen===e.id){const ed=document.createElement('div');ed.className='rkEdit';nameInputs(ed,e.id,()=>{const n=rank.find(x=>x.id===e.id);if(!n)return;nm.className='nms'+((n.nA||n.nB)?'':' none');nm.textContent=(n.nA||n.nB)?(n.nA||'？')+' ＆ '+(n.nB||'？'):t('rkNoName')});
+   const bt=document.createElement('div');bt.className='rkBtns';
+   const del=document.createElement('button');del.type='button';del.className='rkDel';del.textContent=t('rkDel');
+   del.onclick=()=>{if(!del.classList.contains('armed')){del.classList.add('armed');del.textContent=t('delAsk');setTimeout(()=>{if(del.isConnected){del.classList.remove('armed');del.textContent=t('rkDel')}},3000);return}
+    rank=rank.filter(x=>x.id!==e.id);rkOpen=null;saveRank();renderRank();toast(t('rkOut'))};
+   const ok=document.createElement('button');ok.type='button';ok.className='pink';ok.textContent=t('rkOk');ok.onclick=()=>{rkOpen=null;renderRank();renderPairHist();toast(t('rkSaved'))};
+   bt.append(del,ok);ed.appendChild(bt);li.appendChild(ed);
+   requestAnimationFrame(()=>{const f=ed.querySelector('input');if(f&&!f.value)f.focus()})}
+  L.appendChild(li)})}
 $('pairClose').onclick=()=>{cancelAnimationFrame(pairAnim);closeScreens();setBubble(t('hello'))};
 $('pairAgain').onclick=()=>{cancelAnimationFrame(pairAnim);closeScreens();$('pairCard').scrollIntoView({behavior:'smooth',block:'start'})};
-buildPairUI();paintPair();renderPairHist();
+buildPairUI();paintPair();renderPairHist();renderRank();
 
 /* ---------- history ---------- */
+let histShowAll=false;
 function renderHist(){const h=$('hist');h.innerHTML='';$('histCard').hidden=!history.length;
- history.forEach((rec,idx)=>{const it=document.createElement('div');it.className='it';const ob=document.createElement('button');ob.type='button';ob.className='open';ob.setAttribute('aria-label',fmtDate(rec.date));
+ $('histCount').textContent=t('histCount').replace('{n}',history.length).replace('{max}',HIST_MAX);
+ const LIM=12;const list=histShowAll?history:history.slice(0,LIM);const mb=$('histMore');mb.hidden=histShowAll||history.length<=LIM;mb.textContent=t('more').replace('{n}',Math.max(0,history.length-LIM));
+ list.forEach((rec)=>{const it=document.createElement('div');it.className='it';const ob=document.createElement('button');ob.type='button';ob.className='open';ob.setAttribute('aria-label',fmtDate(rec.date));
   const im=document.createElement('img');im.src=rec.img;im.alt='';ob.appendChild(im);ob.onclick=()=>showResult(rec);
   const dl=document.createElement('button');dl.type='button';dl.className='del';dl.textContent='✕';dl.setAttribute('aria-label','delete');
   dl.onclick=()=>{if(!dl.classList.contains('armed')){dl.classList.add('armed');dl.textContent=t('delAsk');setTimeout(()=>{if(dl.isConnected){dl.classList.remove('armed');dl.textContent='✕'}},3000);return}
-   history.splice(idx,1);saveAll();renderHist();toast(t('deleted'))};
+   const k=history.indexOf(rec);if(k>=0)history.splice(k,1);saveAll();renderHist();toast(t('deleted'))};
   const dd=document.createElement('div');dd.className='d';dd.textContent=fmtDate(rec.date)+' '+(rec.hand==='right'?t('rightHand'):t('leftHand'));
-  it.append(ob,dl,dd);h.appendChild(it)})}
+  it.append(ob,dl);const nmv=rec.prof&&rec.prof.name;if(nmv){const nd=document.createElement('div');nd.className='nm';nd.textContent=nmv;it.appendChild(nd)}it.appendChild(dd);h.appendChild(it)})}
+$('histMore').onclick=()=>{histShowAll=true;renderHist()};
+
+/* load saved results from IndexedDB (and move old ones out of localStorage) */
+DB.open().then(async ok=>{if(!ok)return;
+ const [h,p]=await Promise.all([DB.get('history'),DB.get('pairHist')]);
+ history=mergeById(history,Array.isArray(h)?h:[],HIST_MAX);pairHist=mergeById(pairHist,Array.isArray(p)?p:[],PAIR_MAX);
+ if(!rank.length&&pairHist.length){pairHist.slice().reverse().forEach(it=>rankAdd(it))}
+ putBig('history',history);putBig('pairHist',pairHist);renderHist();renderPairHist();renderRank()});
 
 /* ---------- dev zip (artifact only) ---------- */
 if(window.claude&&typeof window.claude.use==='function'){window.claude.use('downloads').then(dl=>{if(!dl)return;$('devBox').hidden=false;
